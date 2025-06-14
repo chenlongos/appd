@@ -1,7 +1,7 @@
 # Available arguments:
 # * General options:
-#     - `ARCH`: Target architecture: x86_64, riscv64, aarch64
-#     - `PLATFORM`: Target platform in the `platforms` directory
+#     - `ARCH`: Target architecture: x86_64, riscv64, aarch64, loongarch64
+#     - `MYPLAT`: Path to target platform config file
 #     - `SMP`: Number of CPUs
 #     - `MODE`: Build mode: release, debug
 #     - `LOG:` Logging level: warn, error, info, debug, trace
@@ -34,7 +34,7 @@
 
 # General options
 ARCH ?= x86_64
-PLATFORM ?=
+MYPLAT ?=
 SMP ?= 1
 MODE ?= release
 LOG ?= warn
@@ -80,10 +80,10 @@ else
   APP_TYPE := c
 endif
 
-# Feature parsing
-include scripts/make/features.mk
 # Platform resolving
 include scripts/make/platform.mk
+# Feature parsing
+include scripts/make/features.mk
 
 # Target
 ifeq ($(ARCH), x86_64)

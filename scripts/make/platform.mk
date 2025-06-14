@@ -1,24 +1,19 @@
 # Architecture and platform resolving
 
-# A map of builtin platforms to their corresponding package names
-builtin_platforms_map := \
-    x86_64-qemu-q35:x86-pc \
-    x86_64-pc-oslab:x86-pc \
-    riscv64-qemu-virt:riscv64-qemu-virt \
-    aarch64-qemu-virt:aarch64-qemu-virt \
-    aarch64-raspi4:aarch64-raspi \
-    aarch64-bsta1000b:aarch64-bsta1000b \
-    aarch64-phytium-pi:aarch64-phytium-pi \
-    loongarch64-qemu-virt:loongarch64-qemu-virt
+# Builtin platforms in [axhal_crates](https://github.com/arceos-org/axplat_crates/tree/main/platforms)
+builtin_platforms := x86_64-qemu-q35 \
+    riscv64-qemu-virt \
+    aarch64-qemu-virt \
+    aarch64-raspi4 \
+    aarch64-bsta1000b \
+    aarch64-phytium-pi \
+    loongarch64-qemu-virt
 
 # Resolve the path of platform configuration file
-define resolve_plat_config 
-  $(addsuffix /axconfig.toml, \
-    $(shell cargo metadata --all-features --format-version 1 | \
-      jq '.packages[] | select(.name == "axplat-$(PLAT_PACKAGE)") | .manifest_path' | \
-      xargs dirname))
+define resolve_plat_config
+  $(shell cargo axplat info axplat-$(PLAT_PACKAGE)  | grep '^config_path:' | cut -d ' ' -f2-)
 endef
-ifeq ($(PLATFORM),)
+ifeq ($(MYPLAT),)
   # `PLATFORM` is not specified, use the default platform for each architecture
   ifeq ($(ARCH), x86_64)
     PLAT_NAME := x86_64-qemu-q35
@@ -37,27 +32,46 @@ ifeq ($(PLATFORM),)
   endif
   PLAT_CONFIG := $(call resolve_plat_config)
 else
-  platform_pair = $(filter $(PLATFORM):%, $(builtin_platforms_map))
   # `PLATFORM` is specified, override the `ARCH` variables
-  ifneq ($(platform_pair),)
+  ifneq ($(filter $(MYPLAT), $(builtin_platforms)),)
     # builtin platform
-    _arch := $(word 1,$(subst -, ,$(PLATFORM)))
-    PLAT_NAME := $(PLATFORM)
-    PLAT_PACKAGE := $(word 2, $(subst :, ,$(platform_pair)))
+    ifeq ($(MYPLAT), x86_64-qemu-q35)
+      PLAT_PACKAGE := x86-pc
+    else ifeq ($(MYPLAT), aarch64-raspi4)
+      PLAT_PACKAGE := aarch64-raspi
+    else
+      PLAT_PACKAGE := $(MYPLAT)
+    endif
+    PLAT_NAME := $(MYPLAT)
     PLAT_CONFIG := $(call resolve_plat_config)
-  else ifneq ($(wildcard $(PLATFORM)),)
+    _arch := $(patsubst "%",%,$(shell axconfig-gen $(PLAT_CONFIG) -r arch))
+  else ifneq ($(wildcard $(MYPLAT)),)
     # custom platform, read the "arch" and "plat-name" fields from the toml file
-    _arch :=  $(patsubst "%",%,$(shell axconfig-gen $(PLATFORM) -r arch))
-    PLAT_NAME := $(patsubst "%",%,$(shell axconfig-gen $(PLATFORM) -r platform))
-    PLAT_CONFIG := $(PLATFORM)
+    _arch :=  $(patsubst "%",%,$(shell axconfig-gen $(MYPLAT) -r arch))
+    PLAT_NAME := $(patsubst "%",%,$(shell axconfig-gen $(MYPLAT) -r platform))
+    # 需要去除前后的 " 和 "，因为 axconfig-gen 返回的值可能包含引号
+    PLAT_PACKAGE := $(patsubst "%",%,$(shell axconfig-gen $(MYPLAT) -r package))
+    PLAT_CONFIG := $(MYPLAT)
   else
     builtin_platforms := $(foreach pair,$(builtin_platforms_map),$(firstword $(subst :, ,$(pair))))
-    $(error "PLATFORM" must be one of "$(builtin_platforms)" or a valid path to a toml file)
+    $(error "MYPLAT" must be a valid path to a toml file)
   endif
   ifeq ($(origin ARCH),command line)
     ifneq ($(ARCH),$(_arch))
-      $(error "ARCH=$(ARCH)" is not compatible with "PLATFORM=$(PLATFORM)")
+      $(error "ARCH=$(ARCH)" is not compatible with "PLAT_NAME=$(PLAT_NAME)")
     endif
   endif
   ARCH := $(_arch)
+endif
+
+default_package := x86-pc riscv64-qemu-virt aarch64-qemu-virt loongarch64-qemu-virt
+ifeq ($(filter $(PLAT_PACKAGE),$(default_package)),)
+  # If `PLAT_PACKAGE` is not one of the default packages, then it must be a custom package.
+  # so disable `defplat` feature and enable `myplat` feature
+  FEATURES := $(filter-out defplat,$(FEATURES))
+  override FEATURES += myplat
+else
+  # If `PLAT_PACKAGE` is one of the default packages, then enable `defplat` feature
+  FEATURES := $(filter-out myplat,$(FEATURES))
+  override FEATURES += defplat
 endif

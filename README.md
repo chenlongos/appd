@@ -52,6 +52,7 @@ Install [cargo-binutils](https://github.com/rust-embedded/cargo-binutils) to use
 
 ```bash
 cargo install cargo-binutils axconfig-gen
+cargo install --locked cargo-axplat
 ```
 
 ##### Dependencies for running apps
