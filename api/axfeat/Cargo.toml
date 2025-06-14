@@ -24,6 +24,9 @@ irq = ["axhal/irq", "axruntime/irq", "axtask?/irq"]
 # Custom platforms
 myplat = ["axhal/myplat"]
 
+# Default platforms
+defplat = ["axhal/defplat"]
+
 # Memory
 alloc = ["axalloc", "axruntime/alloc"]
 alloc-tlsf = ["axalloc/tlsf"]

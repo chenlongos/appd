@@ -271,12 +271,34 @@ dependencies = [
 ]
 
 [[package]]
+name = "axconfig-gen"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0bf14099a96dbb925e39a44c4f25555f1e24516194452a84a943aa7eda62383d"
+dependencies = [
+ "clap",
+ "toml_edit",
+]
+
+[[package]]
 name = "axconfig-gen-macros"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "92110c7e7a5633d7fb8a402393c91c326ad6d19710bb9cfa5ab4095e63c25948"
 dependencies = [
- "axconfig-gen",
+ "axconfig-gen 0.1.0",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.98",
+]
+
+[[package]]
+name = "axconfig-macros"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f86a6711b80fbd1dc4c1d8e2fb77a5de6fc8e2eb2b96bbd0420ca8af370eb74c"
+dependencies = [
+ "axconfig-gen 0.2.0",
  "proc-macro2",
  "quote",
  "syn 2.0.98",
@@ -588,10 +610,11 @@ dependencies = [
 [[package]]
 name = "axplat"
 version = "0.1.0"
-source = "git+https://github.com/arceos-org/axhal_crates.git#4d0e7687e30907a7640711e6ab0e268ec582b567"
+source = "git+https://github.com/arceos-org/axhal_crates.git#6dcbebc9b129dc73eb4c62874ee4a665c5a85a38"
 dependencies = [
  "axplat-macros",
  "bitflags 2.9.1",
+ "const-str",
  "crate_interface",
  "handler_table",
  "memory_addr",
@@ -600,9 +623,9 @@ dependencies = [
 [[package]]
 name = "axplat-aarch64-bsta1000b"
 version = "0.1.0"
-source = "git+https://github.com/arceos-org/axhal_crates.git#4d0e7687e30907a7640711e6ab0e268ec582b567"
+source = "git+https://github.com/arceos-org/axhal_crates.git#6dcbebc9b129dc73eb4c62874ee4a665c5a85a38"
 dependencies = [
- "axconfig-gen-macros",
+ "axconfig-macros",
  "axcpu",
  "axplat",
  "axplat-aarch64-common",
@@ -616,7 +639,7 @@ dependencies = [
 [[package]]
 name = "axplat-aarch64-common"
 version = "0.1.0"
-source = "git+https://github.com/arceos-org/axhal_crates.git#4d0e7687e30907a7640711e6ab0e268ec582b567"
+source = "git+https://github.com/arceos-org/axhal_crates.git#6dcbebc9b129dc73eb4c62874ee4a665c5a85a38"
 dependencies = [
  "aarch64-cpu 10.0.0",
  "arm_gicv2",
@@ -635,9 +658,9 @@ dependencies = [
 [[package]]
 name = "axplat-aarch64-phytium-pi"
 version = "0.1.0"
-source = "git+https://github.com/arceos-org/axhal_crates.git#4d0e7687e30907a7640711e6ab0e268ec582b567"
+source = "git+https://github.com/arceos-org/axhal_crates.git#6dcbebc9b129dc73eb4c62874ee4a665c5a85a38"
 dependencies = [
- "axconfig-gen-macros",
+ "axconfig-macros",
  "axcpu",
  "axplat",
  "axplat-aarch64-common",
@@ -649,9 +672,9 @@ dependencies = [
 [[package]]
 name = "axplat-aarch64-qemu-virt"
 version = "0.1.0"
-source = "git+https://github.com/arceos-org/axhal_crates.git#4d0e7687e30907a7640711e6ab0e268ec582b567"
+source = "git+https://github.com/arceos-org/axhal_crates.git#6dcbebc9b129dc73eb4c62874ee4a665c5a85a38"
 dependencies = [
- "axconfig-gen-macros",
+ "axconfig-macros",
  "axcpu",
  "axplat",
  "axplat-aarch64-common",
@@ -663,10 +686,10 @@ dependencies = [
 [[package]]
 name = "axplat-aarch64-raspi"
 version = "0.1.0"
-source = "git+https://github.com/arceos-org/axhal_crates.git#4d0e7687e30907a7640711e6ab0e268ec582b567"
+source = "git+https://github.com/arceos-org/axhal_crates.git#6dcbebc9b129dc73eb4c62874ee4a665c5a85a38"
 dependencies = [
  "aarch64-cpu 10.0.0",
- "axconfig-gen-macros",
+ "axconfig-macros",
  "axcpu",
  "axplat",
  "axplat-aarch64-common",
@@ -678,11 +701,12 @@ dependencies = [
 [[package]]
 name = "axplat-loongarch64-qemu-virt"
 version = "0.1.0"
-source = "git+https://github.com/arceos-org/axhal_crates.git#4d0e7687e30907a7640711e6ab0e268ec582b567"
+source = "git+https://github.com/arceos-org/axhal_crates.git#6dcbebc9b129dc73eb4c62874ee4a665c5a85a38"
 dependencies = [
- "axconfig-gen-macros",
+ "axconfig-macros",
  "axcpu",
  "axplat",
+ "chrono",
  "kspin",
  "lazyinit",
  "log",
@@ -695,7 +719,7 @@ dependencies = [
 [[package]]
 name = "axplat-macros"
 version = "0.1.0"
-source = "git+https://github.com/arceos-org/axhal_crates.git#4d0e7687e30907a7640711e6ab0e268ec582b567"
+source = "git+https://github.com/arceos-org/axhal_crates.git#6dcbebc9b129dc73eb4c62874ee4a665c5a85a38"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -705,9 +729,9 @@ dependencies = [
 [[package]]
 name = "axplat-riscv64-qemu-virt"
 version = "0.1.0"
-source = "git+https://github.com/arceos-org/axhal_crates.git#4d0e7687e30907a7640711e6ab0e268ec582b567"
+source = "git+https://github.com/arceos-org/axhal_crates.git#6dcbebc9b129dc73eb4c62874ee4a665c5a85a38"
 dependencies = [
- "axconfig-gen-macros",
+ "axconfig-macros",
  "axcpu",
  "axplat",
  "log",
@@ -720,9 +744,9 @@ dependencies = [
 [[package]]
 name = "axplat-x86-pc"
 version = "0.1.0"
-source = "git+https://github.com/arceos-org/axhal_crates.git#4d0e7687e30907a7640711e6ab0e268ec582b567"
+source = "git+https://github.com/arceos-org/axhal_crates.git#6dcbebc9b129dc73eb4c62874ee4a665c5a85a38"
 dependencies = [
- "axconfig-gen-macros",
+ "axconfig-macros",
  "axcpu",
  "axplat",
  "bitflags 2.9.1",
@@ -1010,6 +1034,12 @@ name = "const-default"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0b396d1f76d455557e1218ec8066ae14bba60b4b36ecd55577ba979f5db7ecaa"
+
+[[package]]
+name = "const-str"
+version = "0.6.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9e991226a70654b49d34de5ed064885f0bef0348a8e70018b8ff1ac80aa984a2"
 
 [[package]]
 name = "core-foundation-sys"

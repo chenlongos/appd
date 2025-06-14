@@ -2,7 +2,7 @@
 
 config_args := \
   configs/defconfig.toml $(PLAT_CONFIG) $(EXTRA_CONFIG) \
-  -w 'smp=$(SMP)' \
+  -w 'plat.cpu-num=$(SMP)' \
   -w 'arch="$(ARCH)"' \
   -w 'platform="$(PLAT_NAME)"' \
   -o "$(OUT_CONFIG)"

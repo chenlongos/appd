@@ -31,6 +31,9 @@ irq = ["arceos_api/irq", "axfeat/irq"]
 # Custom platforms
 myplat = ["axfeat/myplat"]
 
+# Default platforms
+defplat = ["axfeat/defplat"]
+
 # Memory
 alloc = ["arceos_api/alloc", "axfeat/alloc", "axio/alloc"]
 alloc-tlsf = ["axfeat/alloc-tlsf"]
