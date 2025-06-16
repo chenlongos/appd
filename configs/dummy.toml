@@ -52,3 +52,5 @@ pci-ecam-base = 0           # uint
 pci-bus-end = 0             # uint
 # PCI device memory ranges.
 pci-ranges = []             # [(uint, uint)]
+# Timer interrupt num.
+timer-irq = 0               # uint

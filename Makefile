@@ -107,7 +107,7 @@ export AX_TARGET=$(TARGET)
 export AX_IP=$(IP)
 export AX_GW=$(GW)
 
-ifneq ($(filter $(MAKECMDGOALS),unittest unittest_no_fail_fast),)
+ifneq ($(filter $(MAKECMDGOALS),unittest unittest_no_fail_fast clippy),)
   # When running unit tests, set `AX_CONFIG_PATH` to empty for dummy config
   unexport AX_CONFIG_PATH
 else
@@ -176,7 +176,7 @@ debug: build
 	  -ex 'continue' \
 	  -ex 'disp /16i $$pc'
 
-clippy: oldconfig
+clippy:
 ifeq ($(origin ARCH), command line)
 	$(call cargo_clippy,--target $(TARGET))
 else

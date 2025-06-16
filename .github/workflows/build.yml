@@ -109,22 +109,22 @@ jobs:
         shared-key: cargo-bin-cache-myplat
         cache-targets: false
     - run: |
-        cargo install cargo-binutils
+        cargo install cargo-binutils axconfig-gen
         cargo install --locked cargo-axplat
 
     # Test various config files
     - name: Build helloworld for x86_64-pc-oslab
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
-      run: make MYPLAT=$(pwd)/configs/custom/x86_64-pc-oslab A=examples/helloworld
+      run: make MYPLAT=$(pwd)/configs/custom/x86_64-pc-oslab.toml A=examples/helloworld
     - name: Build httpclient for x86_64-pc-oslab
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
-      run: make MYPLAT=$(pwd)/configs/custom/x86_64-pc-oslab A=examples/httpclient FEATURES=page-alloc-4g,driver-ixgbe
+      run: make MYPLAT=$(pwd)/configs/custom/x86_64-pc-oslab.toml A=examples/httpclient FEATURES=page-alloc-4g,driver-ixgbe
     - name: Build httpserver for x86_64-pc-oslab
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
-      run: make MYPLAT=$(pwd)/configs/custom/x86_64-pc-oslab A=examples/httpserver FEATURES=page-alloc-4g,driver-ixgbe
+      run: make MYPLAT=$(pwd)/configs/custom/x86_64-pc-oslab.toml A=examples/httpserver FEATURES=page-alloc-4g,driver-ixgbe
     - name: Build shell for x86_64-pc-oslab
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
-      run: make MYPLAT=$(pwd)/configs/custom/x86_64-pc-oslab A=examples/shell FEATURES=page-alloc-4g,driver-ramdisk
+      run: make MYPLAT=$(pwd)/configs/custom/x86_64-pc-oslab.toml A=examples/shell FEATURES=page-alloc-4g,driver-ramdisk
 
     # Test app `helloworld-myplat` for various platforms
     - name: Build helloworld-myplat for x86_64-qemu-q35
@@ -172,8 +172,8 @@ jobs:
       run: |
         git checkout .
         make MYPLAT=aarch64-raspi4 defconfig
-        cargo axplat axplat-aarch64-raspi -p arceos-helloworld -F smp --git https://github.com/arceos-org/axhal_crates.git
-        cargo axplat axplat-aarch64-raspi -p arceos-shell -F smp --git https://github.com/arceos-org/axhal_crates.git
+        cargo axplat add axplat-aarch64-raspi -p arceos-helloworld -F smp --git https://github.com/arceos-org/axhal_crates.git
+        cargo axplat add axplat-aarch64-raspi -p arceos-shell -F smp --git https://github.com/arceos-org/axhal_crates.git
         echo "extern crate axplat_aarch64_raspi;" >> examples/helloworld/src/main.rs
         echo "extern crate axplat_aarch64_raspi;" >> examples/shell/src/main.rs
     - name: Build helloworld for aarch64-raspi4
@@ -188,8 +188,8 @@ jobs:
       run: |
         git checkout .
         make MYPLAT=aarch64-bsta1000b defconfig
-        cargo axplat axplat-aarch64-bsta1000b -p arceos-helloworld -F smp --git https://github.com/arceos-org/axhal_crates.git
-        cargo axplat axplat-aarch64-bsta1000b -p arceos-shell -F smp --git https://github.com/arceos-org/axhal_crates.git
+        cargo axplat add axplat-aarch64-bsta1000b -p arceos-helloworld -F smp --git https://github.com/arceos-org/axhal_crates.git
+        cargo axplat add axplat-aarch64-bsta1000b -p arceos-shell -F smp --git https://github.com/arceos-org/axhal_crates.git
         echo "extern crate axplat_aarch64_bsta1000b;" >> examples/helloworld/src/main.rs
         echo "extern crate axplat_aarch64_bsta1000b;" >> examples/shell/src/main.rs
     - name: Build helloworld for aarch64-bsta1000b
@@ -204,8 +204,8 @@ jobs:
       run: |
         git checkout .
         make MYPLAT=aarch64-phytium-pi defconfig
-        cargo axplat axplat-aarch64-phytium-pi -p arceos-helloworld -F smp --git https://github.com/arceos-org/axhal_crates.git
-        cargo axplat axplat-aarch64-phytium-pi -p arceos-shell -F smp --git https://github.com/arceos-org/axhal_crates.git
+        cargo axplat add axplat-aarch64-phytium-pi -p arceos-helloworld -F smp --git https://github.com/arceos-org/axhal_crates.git
+        cargo axplat add axplat-aarch64-phytium-pi -p arceos-shell -F smp --git https://github.com/arceos-org/axhal_crates.git
         echo "extern crate axplat_aarch64_phytium_pi;" >> examples/helloworld/src/main.rs
         echo "extern crate axplat_aarch64_phytium_pi;" >> examples/shell/src/main.rs
     - name: Build helloworld for aarch64-phytium-pi
