@@ -21,12 +21,8 @@ else
     PLAT_CONFIG := $(MYPLAT)
     PLAT_PACKAGE := $(patsubst "%",%,$(shell axconfig-gen $(PLAT_CONFIG) -r package))
   else 
-    # treat `MYPLAT` as a pagckage name
-    ifeq ($(MYPLAT), aarch64-raspi4)
-      PLAT_PACKAGE := axplat-aarch64-raspi
-    else
-      PLAT_PACKAGE := axplat-$(MYPLAT)
-    endif
+    # treat `MYPLAT` as a package name
+    PLAT_PACKAGE := $(MYPLAT)
     PLAT_CONFIG := $(shell cargo axplat info -c $(PLAT_PACKAGE) 2>/dev/null)
   endif
   ifeq ($(PLAT_CONFIG),)

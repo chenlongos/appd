@@ -39,7 +39,7 @@ Modify config in `.project.toml` to change platform for phytium pi.
 
 Find `shell=[[ ... "make A=examples/helloworld ARCH=aarch64"  ]]`, add `MYPLAT` like:
 
- `"make MYPLAT=aarch64-phytium-pi A=examples/helloworld-myplat SMP=4 APP_FEATURES=aarch64-phytium-pi"`.
+ `"make MYPLAT=axplat-aarch64-phytium-pi A=examples/helloworld-myplat SMP=4 APP_FEATURES=aarch64-phytium-pi"`.
 
 Find `elf = "examples/helloworld/helloworld_aarch64-qemu-virt.elf"` and change to:
 

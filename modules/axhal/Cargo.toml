@@ -17,8 +17,11 @@ rtc = ["axplat-x86-pc?/rtc", "axplat-aarch64-qemu-virt?/rtc", "axplat-riscv64-qe
 paging = ["axalloc", "page_table_multiarch"]
 tls = ["axcpu/tls"]
 uspace = ["paging", "axcpu/uspace"]
+
+# Custom or default platforms
 myplat = []
 defplat = ["dep:axplat-x86-pc", "dep:axplat-aarch64-qemu-virt", "dep:axplat-riscv64-qemu-virt", "dep:axplat-loongarch64-qemu-virt"]
+
 default = []
 
 [dependencies]

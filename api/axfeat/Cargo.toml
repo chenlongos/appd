@@ -21,10 +21,8 @@ fp-simd = ["axhal/fp-simd"]
 # Interrupts
 irq = ["axhal/irq", "axruntime/irq", "axtask?/irq"]
 
-# Custom platforms
+# Custom or default platforms
 myplat = ["axhal/myplat"]
-
-# Default platforms
 defplat = ["axhal/defplat"]
 
 # Memory

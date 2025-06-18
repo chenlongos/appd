@@ -181,18 +181,18 @@ Examples are given below and in the [app-helloworld](https://github.com/arceos-o
 
 ## How to build ArceOS for specific platforms and devices
 
-Set the `MYPLAY` variable when run `make`:
+Set the `MYPLAT` variable when run `make`:
 
 ```bash
 # Build helloworld for raspi4
-make MYPLAY=aarch64-raspi4 SMP=4 A=examples/helloworld
+make MYPLAT=axplat-aarch64-raspi SMP=4 A=examples/helloworld
 ```
 
 You may also need to select the corrsponding device drivers by setting the `FEATURES` variable:
 
 ```bash
 # Build the shell app for raspi4, and use the SD card driver
-make MYPLAY=aarch64-raspi4 SMP=4 A=examples/shell FEATURES=page-alloc-4g,driver-bcm2835-sdhci BUS=mmio
+make MYPLAT=axplat-aarch64-raspi SMP=4 A=examples/shell FEATURES=page-alloc-4g,driver-bcm2835-sdhci BUS=mmio
 # Build httpserver for the bare-metal x86_64 platform, and use the ixgbe and ramdisk driver
 make MYPLAT=$(pwd)/configs/custom/x86_64-pc-oslab.toml A=examples/httpserver FEATURES=page-alloc-4g,driver-ixgbe,driver-ramdisk SMP=4
 ```
