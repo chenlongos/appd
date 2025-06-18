@@ -249,9 +249,13 @@ fn do_uname(_args: &str) {
     let arch = option_env!("AX_ARCH").unwrap_or("");
     let platform = option_env!("AX_PLATFORM").unwrap_or("");
     #[cfg(feature = "axstd")]
-    let smp = std::os::arceos::api::config::plat::CPU_NUM;
+    let smp = if std::os::arceos::api::config::plat::CPU_NUM == 1 {
+        ""
+    } else {
+        " SMP"
+    };
     #[cfg(not(feature = "axstd"))]
-    let smp = "SMP";
+    let smp = "";
     let version = option_env!("CARGO_PKG_VERSION").unwrap_or("0.1.0");
     println!(
         "ArceOS {ver}{smp} {arch} {plat}",

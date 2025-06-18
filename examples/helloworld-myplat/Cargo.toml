@@ -5,7 +5,7 @@ edition.workspace = true
 authors = ["Yuekai Jia <equation618@gmail.com>"]
 
 [features]
-x86_64-qemu-q35 = ["dep:axplat-x86-pc"]
+x86-pc = ["dep:axplat-x86-pc"]
 aarch64-raspi4 = ["dep:axplat-aarch64-raspi"]
 aarch64-qemu-virt = ["dep:axplat-aarch64-qemu-virt"]
 aarch64-bsta1000b = ["dep:axplat-aarch64-bsta1000b"]

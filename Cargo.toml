@@ -66,9 +66,5 @@ axsync = { path = "modules/axsync" }
 axtask = { path = "modules/axtask" }
 axdma = { path = "modules/axdma" }
 
-axcpu = { git = "https://github.com/arceos-org/axcpu.git" }
-axplat = { git = "https://github.com/arceos-org/axhal_crates.git" }
-axplat-macros = { git = "https://github.com/arceos-org/axhal_crates.git" }
-
 [profile.release]
 lto = true

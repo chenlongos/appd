@@ -34,6 +34,9 @@ irq = ["arceos_posix_api/irq", "axfeat/irq"]
 # Custom platforms
 myplat = ["axfeat/myplat"]
 
+# Default platforms
+defplat = ["axfeat/defplat"]
+
 # Memory
 alloc = ["arceos_posix_api/alloc"]
 tls = ["alloc", "axfeat/tls"]
