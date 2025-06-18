@@ -19,7 +19,7 @@ else
   define oldconfig
     $(if $(filter "$(PLAT_NAME)",$(shell axconfig-gen "$(OUT_CONFIG)" -r platform)),\
          $(call run_cmd,axconfig-gen,$(config_args) -c "$(OUT_CONFIG)"),\
-         $(error "ARCH" or "PLATFORM" has been changed, please run "make defconfig" again))
+         $(error "ARCH" or "MYPLAT" has been changed, please run "make defconfig" again))
   endef
 endif
 
