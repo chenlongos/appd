@@ -5,8 +5,8 @@
 Assume the application is located at `path/to/awesomeapp`, and the target platform is `x86_64-pc-oslab` (the configuration file is located at [configs/custom/x86_64-pc-oslab.toml](../configs/custom/x86_64-pc-oslab.toml)):
 
 ```shell
-make MYPLAT=$(pwd)/configs/custom/x86_64-pc-oslab.toml defconfig
-make A=path/to/awesomeapp ARCH=x86_64 MYPLAT=$(pwd)/configs/custom/x86_64-pc-oslab.toml
+make PLAT_CONFIG=$(pwd)/configs/custom/x86_64-pc-oslab.toml defconfig
+make A=path/to/awesomeapp ARCH=x86_64 PLAT_CONFIG=$(pwd)/configs/custom/x86_64-pc-oslab.toml
 ```
 
 The ELF format kernel image will be generated at `path/to/awesomeapp/awesomeapp-x86_64-pc-oslab.elf`.

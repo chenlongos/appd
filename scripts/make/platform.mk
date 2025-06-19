@@ -1,7 +1,19 @@
 # Architecture and platform resolving
 
+# Install `cargo-axplat` by default if not installed.
+ifeq ($(shell cargo axplat --version 2>/dev/null),)
+  $(shell cargo install cargo-axplat)
+endif
+
+resolve_config = \
+  $(if $(wildcard $(PLAT_CONFIG)),\
+    $(if $(filter "$(PLAT_PACKAGE)",$(shell axconfig-gen $(PLAT_CONFIG) -r package)),\
+      $(PLAT_CONFIG),\
+      $(error "PLAT_CONFIG=$(PLAT_CONFIG)" is not compatible with "PLAT_PACKAGE=$(PLAT_PACKAGE)")),\
+    $(shell cargo axplat info -c $(PLAT_PACKAGE) 2>/dev/null))
+
 ifeq ($(MYPLAT),)
-  # `PLATFORM` is not specified, use the default platform for each architecture
+  # `MYPLAT` is not specified, use the default platform for each architecture
   ifeq ($(ARCH), x86_64)
     PLAT_PACKAGE := axplat-x86-pc
   else ifeq ($(ARCH), aarch64)
@@ -13,21 +25,16 @@ ifeq ($(MYPLAT),)
   else
     $(error "ARCH" must be one of "x86_64", "riscv64", "aarch64" or "loongarch64")
   endif
-  PLAT_CONFIG := $(shell cargo axplat info -c $(PLAT_PACKAGE) 2>/dev/null)
+  PLAT_CONFIG := $(resolve_config)
 else
-  # `PLATFORM` is specified, override the `ARCH` variables
-  ifneq ($(wildcard $(MYPLAT)),)
-    # custom platform, read the `package` fields from the toml file
-    PLAT_CONFIG := $(MYPLAT)
-    PLAT_PACKAGE := $(patsubst "%",%,$(shell axconfig-gen $(PLAT_CONFIG) -r package))
-  else 
-    # treat `MYPLAT` as a package name
-    PLAT_PACKAGE := $(MYPLAT)
-    PLAT_CONFIG := $(shell cargo axplat info -c $(PLAT_PACKAGE) 2>/dev/null)
+  # `MYPLAT` is specified, treat it as a package name
+  ifeq ($(shell cargo axplat info -c $(MYPLAT) 2>/dev/null),)
+    $(error "MYPLAT=$(MYPLAT)" is not a valid platform package)
   endif
-  ifeq ($(PLAT_CONFIG),)
-    $(error "MYPLAT" must be a valid configuration file path or a valid package name)
-  endif
+  PLAT_PACKAGE := $(MYPLAT)
+  # We have checked the validity of `MYPLAT`, so the `PLAT_CONFIG` should be valid too.
+  PLAT_CONFIG := $(resolve_config)
+
   # Read the architecture name from the configuration file
   _arch :=  $(patsubst "%",%,$(shell axconfig-gen $(PLAT_CONFIG) -r arch))
   ifeq ($(origin ARCH),command line)

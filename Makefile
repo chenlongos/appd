@@ -1,7 +1,8 @@
 # Available arguments:
 # * General options:
 #     - `ARCH`: Target architecture: x86_64, riscv64, aarch64, loongarch64
-#     - `MYPLAT`: Path to target platform config file
+#     - `MYPLAT`: Package name of the target platform crate.
+#     - `PLAT_CONFIG`: Path to the platform configuration file.
 #     - `SMP`: Number of CPUs. If not set, use the default value from platform config.
 #     - `MODE`: Build mode: release, debug
 #     - `LOG:` Logging level: warn, error, info, debug, trace
@@ -35,6 +36,7 @@
 # General options
 ARCH ?= x86_64
 MYPLAT ?=
+PLAT_CONFIG ?=
 SMP ?=
 MODE ?= release
 LOG ?= warn
@@ -79,6 +81,8 @@ ifneq ($(wildcard $(APP)/Cargo.toml),)
 else
   APP_TYPE := c
 endif
+
+all: build
 
 # Platform resolving
 include scripts/make/platform.mk
@@ -139,8 +143,6 @@ ifeq ($(UIMAGE), y)
 else
   FINAL_IMG := $(OUT_BIN)
 endif
-
-all: build
 
 include scripts/make/utils.mk
 include scripts/make/build.mk

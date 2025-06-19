@@ -5,16 +5,16 @@ You need to specify the platform that owns this network card. For example, we de
 You can use the following command to compile an 'httpserver' app application:
 
 ```shell
-make MYPLAT=$(pwd)/configs/custom/x86_64-pc-oslab.toml defconfig
-make A=examples/httpserver MYPLAT=$(pwd)/configs/custom/x86_64-pc-oslab.toml FEATURES=driver-ixgbe
+make PLAT_CONFIG=$(pwd)/configs/custom/x86_64-pc-oslab.toml defconfig
+make A=examples/httpserver PLAT_CONFIG=$(pwd)/configs/custom/x86_64-pc-oslab.toml FEATURES=driver-ixgbe
 ```
 
 You can also use the following command to start the iperf application:
 
 ```shell
 git clone https://github.com/arceos-org/arceos-apps.git
-make MYPLAT=$(pwd)/configs/custom/x86_64-pc-oslab.toml defconfig
-make A=arceos-apps/c/iperf MYPLAT=$(pwd)/configs/custom/x86_64-pc-oslab.toml FEATURES=driver-ixgbe,driver-ramdisk
+make PLAT_CONFIG=$(pwd)/configs/custom/x86_64-pc-oslab.toml defconfig
+make A=arceos-apps/c/iperf PLAT_CONFIG=$(pwd)/configs/custom/x86_64-pc-oslab.toml FEATURES=driver-ixgbe,driver-ramdisk
 ```
 
 ## Use ixgbe NIC in QEMU with PCI passthrough

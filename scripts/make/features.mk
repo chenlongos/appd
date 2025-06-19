@@ -22,14 +22,10 @@ else
   lib_features :=
 endif
 
-default_package := axplat-x86-pc axplat-riscv64-qemu-virt axplat-aarch64-qemu-virt axplat-loongarch64-qemu-virt
-ifeq ($(filter $(PLAT_PACKAGE),$(default_package)),)
-  # If `PLAT_PACKAGE` is not one of the default packages, then it must be a custom package.
-  # so disable `defplat` feature and enable `myplat` feature
+ifneq ($(MYPLAT),)
   FEATURES := $(filter-out defplat,$(FEATURES))
   override FEATURES += myplat
 else
-  # If `PLAT_PACKAGE` is one of the default packages, then enable `defplat` feature
   FEATURES := $(filter-out myplat,$(FEATURES))
   override FEATURES += defplat
 endif

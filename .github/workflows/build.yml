@@ -23,7 +23,7 @@ jobs:
       with:
         shared-key: cargo-bin-cache
         cache-targets: false
-    - run: cargo install --locked cargo-axplat
+    - run: cargo install cargo-axplat
     - name: Check rust version
       run: rustc --version --verbose
     - name: Check code format
@@ -60,8 +60,7 @@ jobs:
         shared-key: cargo-bin-cache
         cache-targets: false
     - run: |
-        cargo install cargo-binutils
-        cargo install --locked cargo-axplat
+        cargo install cargo-binutils cargo-axplat
     - name: Build helloworld
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
       run: make ARCH=${{ matrix.arch }} A=examples/helloworld
@@ -108,35 +107,33 @@ jobs:
       with:
         shared-key: cargo-bin-cache-myplat
         cache-targets: false
-    - run: |
-        cargo install cargo-binutils axconfig-gen
-        cargo install --locked cargo-axplat
+    - run: cargo install cargo-binutils axconfig-gen cargo-axplat
 
     # Test various config files
     - name: Build helloworld for x86_64-pc-oslab
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
-      run: make MYPLAT=$(pwd)/configs/custom/x86_64-pc-oslab.toml A=examples/helloworld
+      run: make PLAT_CONFIG=$(pwd)/configs/custom/x86_64-pc-oslab.toml A=examples/helloworld
     - name: Build httpclient for x86_64-pc-oslab
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
-      run: make MYPLAT=$(pwd)/configs/custom/x86_64-pc-oslab.toml A=examples/httpclient FEATURES=page-alloc-4g,driver-ixgbe
+      run: make PLAT_CONFIG=$(pwd)/configs/custom/x86_64-pc-oslab.toml A=examples/httpclient FEATURES=page-alloc-4g,driver-ixgbe
     - name: Build httpserver for x86_64-pc-oslab
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
-      run: make MYPLAT=$(pwd)/configs/custom/x86_64-pc-oslab.toml A=examples/httpserver FEATURES=page-alloc-4g,driver-ixgbe
+      run: make PLAT_CONFIG=$(pwd)/configs/custom/x86_64-pc-oslab.toml A=examples/httpserver FEATURES=page-alloc-4g,driver-ixgbe
     - name: Build shell for x86_64-pc-oslab
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
-      run: make MYPLAT=$(pwd)/configs/custom/x86_64-pc-oslab.toml A=examples/shell FEATURES=page-alloc-4g,driver-ramdisk
+      run: make PLAT_CONFIG=$(pwd)/configs/custom/x86_64-pc-oslab.toml A=examples/shell FEATURES=page-alloc-4g,driver-ramdisk
 
     # Test app `helloworld-myplat` for various platforms
     - name: Build helloworld-myplat for x86-pc
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
       run: |
-        make MYPLAT=axplat-x86-pc defconfig
-        make MYPLAT=axplat-x86-pc A=examples/helloworld-myplat SMP=4 APP_FEATURES=x86-pc
+        make ARCH=x86_64 defconfig
+        make ARCH=x86_64 A=examples/helloworld-myplat SMP=4 APP_FEATURES=x86-pc
     - name: Build helloworld-myplat for aarch64-qemu-virt
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
       run: |
-        make MYPLAT=axplat-aarch64-qemu-virt defconfig
-        make MYPLAT=axplat-aarch64-qemu-virt A=examples/helloworld-myplat SMP=4 APP_FEATURES=aarch64-qemu-virt
+        make ARCH=aarch64 defconfig
+        make ARCH=aarch64 A=examples/helloworld-myplat SMP=4 APP_FEATURES=aarch64-qemu-virt
     - name: Build helloworld-myplat for aarch64-raspi4
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
       run: |
@@ -157,14 +154,14 @@ jobs:
     - name: Build helloworld-myplat for loongarch64-qemu-virt
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
       run: |
-        make MYPLAT=axplat-loongarch64-qemu-virt defconfig
-        make MYPLAT=axplat-loongarch64-qemu-virt A=examples/helloworld-myplat SMP=4 APP_FEATURES=loongarch64-qemu-virt
+        make ARCH=loongarch64 defconfig
+        make ARCH=loongarch64 A=examples/helloworld-myplat SMP=4 APP_FEATURES=loongarch64-qemu-virt
       
     - name: Build helloworld-myplat for riscv64-qemu-virt
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
       run: |
-        make MYPLAT=axplat-riscv64-qemu-virt defconfig
-        make MYPLAT=axplat-riscv64-qemu-virt A=examples/helloworld-myplat SMP=4 APP_FEATURES=riscv64-qemu-virt
+        make ARCH=riscv64 defconfig
+        make ARCH=riscv64 A=examples/helloworld-myplat SMP=4 APP_FEATURES=riscv64-qemu-virt
       
 
     # Test platform `aarch64-raspi4` for various apps
@@ -220,14 +217,14 @@ jobs:
       with:
         arch: x86_64
     - name: Setup x86_64-pc-oslab for C apps
-      run: make MYPLAT=$(pwd)/configs/custom/x86_64-pc-oslab.toml defconfig
+      run: make PLAT_CONFIG=$(pwd)/configs/custom/x86_64-pc-oslab.toml defconfig
     - name: Build helloworld-c for x86_64-pc-oslab
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
-      run: make MYPLAT=$(pwd)/configs/custom/x86_64-pc-oslab.toml A=examples/helloworld-c
+      run: make PLAT_CONFIG=$(pwd)/configs/custom/x86_64-pc-oslab.toml A=examples/helloworld-c
     - name: Build httpclient-c for x86_64-pc-oslab
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
-      run: make MYPLAT=$(pwd)/configs/custom/x86_64-pc-oslab.toml A=examples/httpclient-c FEATURES=page-alloc-4g,driver-ixgbe
+      run: make PLAT_CONFIG=$(pwd)/configs/custom/x86_64-pc-oslab.toml A=examples/httpclient-c FEATURES=page-alloc-4g,driver-ixgbe
     - name: Build httpserver-c for x86_64-pc-oslab
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
-      run: make MYPLAT=$(pwd)/configs/custom/x86_64-pc-oslab.toml A=examples/httpserver-c FEATURES=page-alloc-4g,driver-ixgbe
+      run: make PLAT_CONFIG=$(pwd)/configs/custom/x86_64-pc-oslab.toml A=examples/httpserver-c FEATURES=page-alloc-4g,driver-ixgbe
 
