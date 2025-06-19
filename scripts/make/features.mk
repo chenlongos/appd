@@ -22,6 +22,18 @@ else
   lib_features :=
 endif
 
+default_package := axplat-x86-pc axplat-riscv64-qemu-virt axplat-aarch64-qemu-virt axplat-loongarch64-qemu-virt
+ifeq ($(filter $(PLAT_PACKAGE),$(default_package)),)
+  # If `PLAT_PACKAGE` is not one of the default packages, then it must be a custom package.
+  # so disable `defplat` feature and enable `myplat` feature
+  FEATURES := $(filter-out defplat,$(FEATURES))
+  override FEATURES += myplat
+else
+  # If `PLAT_PACKAGE` is one of the default packages, then enable `defplat` feature
+  FEATURES := $(filter-out myplat,$(FEATURES))
+  override FEATURES += defplat
+endif
+
 override FEATURES := $(shell echo $(FEATURES) | tr ',' ' ')
 
 ifeq ($(APP_TYPE), c)
@@ -46,6 +58,10 @@ endif
 
 ifeq ($(BUS),mmio)
   ax_feat += bus-mmio
+endif
+
+ifeq ($(SMP),)
+  SMP := $(shell axconfig-gen $(PLAT_CONFIG) -r plat.cpu-num 2>/dev/null)
 endif
 
 ifeq ($(shell test $(SMP) -gt 1; echo $$?),0)

@@ -17,7 +17,7 @@ ifeq ($(MYPLAT),)
 else
   # `PLATFORM` is specified, override the `ARCH` variables
   ifneq ($(wildcard $(MYPLAT)),)
-    # custom platform, read the "plat-name" fields from the toml file
+    # custom platform, read the `package` fields from the toml file
     PLAT_CONFIG := $(MYPLAT)
     PLAT_PACKAGE := $(patsubst "%",%,$(shell axconfig-gen $(PLAT_CONFIG) -r package))
   else 
@@ -39,15 +39,3 @@ else
 endif
 
 PLAT_NAME := $(patsubst "%",%,$(shell axconfig-gen $(PLAT_CONFIG) -r platform))
-
-default_package := axplat-x86-pc axplat-riscv64-qemu-virt axplat-aarch64-qemu-virt axplat-loongarch64-qemu-virt
-ifeq ($(filter $(PLAT_PACKAGE),$(default_package)),)
-  # If `PLAT_PACKAGE` is not one of the default packages, then it must be a custom package.
-  # so disable `defplat` feature and enable `myplat` feature
-  FEATURES := $(filter-out defplat,$(FEATURES))
-  override FEATURES += myplat
-else
-  # If `PLAT_PACKAGE` is one of the default packages, then enable `defplat` feature
-  FEATURES := $(filter-out myplat,$(FEATURES))
-  override FEATURES += defplat
-endif

@@ -2,7 +2,7 @@
 # * General options:
 #     - `ARCH`: Target architecture: x86_64, riscv64, aarch64, loongarch64
 #     - `MYPLAT`: Path to target platform config file
-#     - `SMP`: Number of CPUs
+#     - `SMP`: Number of CPUs. If not set, use the default value from platform config.
 #     - `MODE`: Build mode: release, debug
 #     - `LOG:` Logging level: warn, error, info, debug, trace
 #     - `V`: Verbose level: (empty), 1, 2
@@ -35,7 +35,7 @@
 # General options
 ARCH ?= x86_64
 MYPLAT ?=
-SMP ?= 1
+SMP ?=
 MODE ?= release
 LOG ?= warn
 V ?=
@@ -100,7 +100,6 @@ endif
 
 export AX_ARCH=$(ARCH)
 export AX_PLATFORM=$(PLAT_NAME)
-export AX_SMP=$(SMP)
 export AX_MODE=$(MODE)
 export AX_LOG=$(LOG)
 export AX_TARGET=$(TARGET)

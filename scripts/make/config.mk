@@ -2,10 +2,13 @@
 
 config_args := \
   configs/defconfig.toml $(PLAT_CONFIG) $(EXTRA_CONFIG) \
-  -w 'plat.cpu-num=$(SMP)' \
   -w 'arch="$(ARCH)"' \
   -w 'platform="$(PLAT_NAME)"' \
   -o "$(OUT_CONFIG)"
+
+ifneq ($(SMP),)
+  config_args += -w 'plat.cpu-num=$(SMP)'
+endif
 
 define defconfig
   $(call run_cmd,axconfig-gen,$(config_args))
