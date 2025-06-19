@@ -84,12 +84,13 @@ endif
 
 all: build
 
-# Platform resolving
+ifeq ($(filter $(MAKECMDGOALS),unittest unittest_no_fail_fast clippy fmt fmt_c disk_img clean clean_c),)
 include scripts/make/platform.mk
 # Configuration generation
 include scripts/make/config.mk
 # Feature parsing
 include scripts/make/features.mk
+endif
 
 # Target
 ifeq ($(ARCH), x86_64)

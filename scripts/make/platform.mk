@@ -1,9 +1,13 @@
 # Architecture and platform resolving
 
-# Install `cargo-axplat` by default if not installed.
 ifeq ($(shell cargo axplat --version 2>/dev/null),)
   $(info "Installing cargo-axplat...")
   $(shell cargo install cargo-axplat)
+endif
+
+ifeq ($(shell axconfig-gen --version 2>/dev/null),)
+  $(info "Installing cargo-axconfig-gen...")
+  $(shell cargo install cargo-axconfig-gen)
 endif
 
 resolve_config = \
@@ -37,7 +41,7 @@ else
   PLAT_CONFIG := $(resolve_config)
 
   # Read the architecture name from the configuration file
-  _arch :=  $(patsubst "%",%,$(shell axconfig-gen $(PLAT_CONFIG) -r arch))
+  _arch := $(patsubst "%",%,$(shell axconfig-gen $(PLAT_CONFIG) -r arch))
   ifeq ($(origin ARCH),command line)
     ifneq ($(ARCH),$(_arch))
       $(error "ARCH=$(ARCH)" is not compatible with "MYPLAT=$(MYPLAT)")

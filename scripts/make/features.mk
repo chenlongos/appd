@@ -22,14 +22,6 @@ else
   lib_features :=
 endif
 
-ifneq ($(MYPLAT),)
-  FEATURES := $(filter-out defplat,$(FEATURES))
-  override FEATURES += myplat
-else
-  FEATURES := $(filter-out myplat,$(FEATURES))
-  override FEATURES += defplat
-endif
-
 override FEATURES := $(shell echo $(FEATURES) | tr ',' ' ')
 
 ifeq ($(APP_TYPE), c)
@@ -45,6 +37,13 @@ override FEATURES := $(strip $(FEATURES))
 
 ax_feat :=
 lib_feat :=
+
+ifneq ($(MYPLAT),)
+  ax_feat += myplat
+else
+  ax_feat += defplat
+endif
+
 
 ifneq ($(filter $(LOG),off error warn info debug trace),)
   ax_feat += log-level-$(LOG)
