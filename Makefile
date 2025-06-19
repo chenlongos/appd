@@ -82,6 +82,8 @@ endif
 
 # Platform resolving
 include scripts/make/platform.mk
+# Configuration generation
+include scripts/make/config.mk
 # Feature parsing
 include scripts/make/features.mk
 
@@ -141,7 +143,6 @@ endif
 all: build
 
 include scripts/make/utils.mk
-include scripts/make/config.mk
 include scripts/make/build.mk
 include scripts/make/qemu.mk
 ifeq ($(PLAT_NAME), aarch64-raspi4)
