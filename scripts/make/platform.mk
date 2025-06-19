@@ -2,6 +2,7 @@
 
 # Install `cargo-axplat` by default if not installed.
 ifeq ($(shell cargo axplat --version 2>/dev/null),)
+  $(info "Installing cargo-axplat...")
   $(shell cargo install cargo-axplat)
 endif
 
