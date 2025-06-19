@@ -85,6 +85,9 @@ endif
 all: build
 
 ifeq ($(filter $(MAKECMDGOALS),unittest unittest_no_fail_fast clippy fmt fmt_c disk_img clean clean_c),)
+# Install dependencies
+include scripts/make/deps.mk
+# Platform resolving
 include scripts/make/platform.mk
 # Configuration generation
 include scripts/make/config.mk
@@ -154,10 +157,10 @@ else ifeq ($(PLAT_NAME), aarch64-bsta1000b)
   include scripts/make/bsta1000b-fada.mk
 endif
 
-defconfig: _axconfig-gen
+defconfig:
 	$(call defconfig)
 
-oldconfig: _axconfig-gen
+oldconfig:
 	$(call oldconfig)
 
 build: $(OUT_DIR) $(FINAL_IMG)
@@ -222,4 +225,4 @@ clean_c::
 .PHONY: all defconfig oldconfig \
 	build disasm run justrun debug \
 	clippy doc doc_check_missing fmt fmt_c unittest unittest_no_fail_fast \
-	disk_img clean clean_c
+	disk_img clean clean_c _install_deps

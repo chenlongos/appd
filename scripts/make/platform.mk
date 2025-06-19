@@ -1,15 +1,5 @@
 # Architecture and platform resolving
 
-ifeq ($(shell cargo axplat --version 2>/dev/null),)
-  $(info "Installing cargo-axplat...")
-  $(shell cargo install cargo-axplat)
-endif
-
-ifeq ($(shell axconfig-gen --version 2>/dev/null),)
-  $(info "Installing cargo-axconfig-gen...")
-  $(shell cargo install cargo-axconfig-gen)
-endif
-
 resolve_config = \
   $(if $(wildcard $(PLAT_CONFIG)),\
     $(if $(filter "$(PLAT_PACKAGE)",$(shell axconfig-gen $(PLAT_CONFIG) -r package)),\
