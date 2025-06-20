@@ -44,7 +44,6 @@ else
   ax_feat += defplat
 endif
 
-
 ifneq ($(filter $(LOG),off error warn info debug trace),)
   ax_feat += log-level-$(LOG)
 else
@@ -53,10 +52,6 @@ endif
 
 ifeq ($(BUS),mmio)
   ax_feat += bus-mmio
-endif
-
-ifeq ($(SMP),)
-  SMP := $(shell axconfig-gen $(PLAT_CONFIG) -r plat.cpu-num 2>/dev/null)
 endif
 
 ifeq ($(shell test $(SMP) -gt 1; echo $$?),0)

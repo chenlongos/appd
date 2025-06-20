@@ -8,6 +8,8 @@ config_args := \
 
 ifneq ($(SMP),)
   config_args += -w 'plat.cpu-num=$(SMP)'
+else
+  SMP := $(shell axconfig-gen $(PLAT_CONFIG) -r plat.cpu-num 2>/dev/null)
 endif
 
 define defconfig

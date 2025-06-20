@@ -82,7 +82,6 @@ else
   APP_TYPE := c
 endif
 
-all: build
 
 ifeq ($(filter $(MAKECMDGOALS),unittest unittest_no_fail_fast clippy fmt fmt_c disk_img clean clean_c),)
 # Install dependencies
@@ -147,6 +146,8 @@ ifeq ($(UIMAGE), y)
 else
   FINAL_IMG := $(OUT_BIN)
 endif
+
+all: build
 
 include scripts/make/utils.mk
 include scripts/make/build.mk
@@ -225,4 +226,4 @@ clean_c::
 .PHONY: all defconfig oldconfig \
 	build disasm run justrun debug \
 	clippy doc doc_check_missing fmt fmt_c unittest unittest_no_fail_fast \
-	disk_img clean clean_c _install_deps
+	disk_img clean clean_c
