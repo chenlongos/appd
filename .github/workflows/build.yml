@@ -136,18 +136,18 @@ jobs:
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
       run: |
         make MYPLAT=axplat-aarch64-raspi defconfig
-        make MYPLAT=axplat-aarch64-raspi A=examples/helloworld-myplat SMP=4 APP_FEATURES=aarch64-raspi4
+        make MYPLAT=axplat-aarch64-raspi A=examples/helloworld-myplat APP_FEATURES=aarch64-raspi4
     - name: Build helloworld-myplat for aarch64-bsta1000b
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
       run: |
         make MYPLAT=axplat-aarch64-bsta1000b defconfig
-        make MYPLAT=axplat-aarch64-bsta1000b A=examples/helloworld-myplat SMP=8 APP_FEATURES=aarch64-bsta1000b
+        make MYPLAT=axplat-aarch64-bsta1000b A=examples/helloworld-myplat APP_FEATURES=aarch64-bsta1000b
       
     - name: Build helloworld-myplat for aarch64-phytium-pi
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
       run: |
         make MYPLAT=axplat-aarch64-phytium-pi defconfig
-        make MYPLAT=axplat-aarch64-phytium-pi A=examples/helloworld-myplat SMP=4 APP_FEATURES=aarch64-phytium-pi
+        make MYPLAT=axplat-aarch64-phytium-pi A=examples/helloworld-myplat APP_FEATURES=aarch64-phytium-pi
 
     - name: Build helloworld-myplat for loongarch64-qemu-virt
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
@@ -175,10 +175,10 @@ jobs:
         echo "extern crate axplat_aarch64_raspi;" >> examples/shell/src/main.rs
     - name: Build helloworld for aarch64-raspi4
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
-      run: make MYPLAT=axplat-aarch64-raspi SMP=4 A=examples/helloworld
+      run: make MYPLAT=axplat-aarch64-raspi A=examples/helloworld
     - name: Build shell for aarch64-raspi4
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
-      run: make MYPLAT=axplat-aarch64-raspi SMP=4 A=examples/shell FEATURES=page-alloc-4g,driver-bcm2835-sdhci BUS=mmio
+      run: make MYPLAT=axplat-aarch64-raspi A=examples/shell FEATURES=page-alloc-4g,driver-bcm2835-sdhci BUS=mmio
 
     # Test platform `aarch64-bsta1000b` for various apps
     - name: Setup aarch64-bsta1000b
@@ -191,10 +191,10 @@ jobs:
         echo "extern crate axplat_aarch64_bsta1000b;" >> examples/shell/src/main.rs
     - name: Build helloworld for aarch64-bsta1000b
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
-      run: make MYPLAT=axplat-aarch64-bsta1000b SMP=8 A=examples/helloworld
+      run: make MYPLAT=axplat-aarch64-bsta1000b A=examples/helloworld
     - name: Build shell for aarch64-bsta1000b
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
-      run: make MYPLAT=axplat-aarch64-bsta1000b SMP=8 A=examples/shell FEATURES=page-alloc-4g,driver-bcm2835-sdhci BUS=mmio
+      run: make MYPLAT=axplat-aarch64-bsta1000b A=examples/shell FEATURES=page-alloc-4g,driver-ramdisk BUS=mmio
 
     # Test platform `aarch64-phytium-pi` for various apps
     - name: Setup aarch64-phytium-pi
@@ -207,10 +207,10 @@ jobs:
         echo "extern crate axplat_aarch64_phytium_pi;" >> examples/shell/src/main.rs
     - name: Build helloworld for aarch64-phytium-pi
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
-      run: make MYPLAT=axplat-aarch64-phytium-pi SMP=4 A=examples/helloworld
+      run: make MYPLAT=axplat-aarch64-phytium-pi A=examples/helloworld
     - name: Build shell for aarch64-phytium-pi
       continue-on-error: ${{ matrix.rust-toolchain == 'nightly' }}
-      run: make MYPLAT=axplat-aarch64-phytium-pi SMP=4 A=examples/shell FEATURES=page-alloc-4g,driver-bcm2835-sdhci BUS=mmio
+      run: make MYPLAT=axplat-aarch64-phytium-pi A=examples/shell FEATURES=page-alloc-4g,driver-ramdisk BUS=mmio
 
     # Test various config files for C apps
     - uses: arceos-org/setup-musl@v1

@@ -23,12 +23,13 @@ ifeq ($(MYPLAT),)
   PLAT_CONFIG := $(resolve_config)
 else
   # `MYPLAT` is specified, treat it as a package name
-  ifeq ($(shell cargo axplat info -c $(MYPLAT) 2>/dev/null),)
-    $(error "MYPLAT=$(MYPLAT)" is not a valid platform package)
-  endif
   PLAT_PACKAGE := $(MYPLAT)
   # We have checked the validity of `MYPLAT`, so the `PLAT_CONFIG` should be valid too.
   PLAT_CONFIG := $(resolve_config)
+
+  ifeq ($(PLAT_CONFIG),)
+    $(error "MYPLAT=$(MYPLAT) is not a valid platform package name")
+  endif
 
   # Read the architecture name from the configuration file
   _arch := $(patsubst "%",%,$(shell axconfig-gen $(PLAT_CONFIG) -r arch))
