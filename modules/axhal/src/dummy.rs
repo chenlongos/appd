@@ -51,6 +51,14 @@ impl MemIf for DummyMem {
     fn mmio_ranges() -> &'static [RawRange] {
         &[]
     }
+
+    fn phys_to_virt(_paddr: memory_addr::PhysAddr) -> memory_addr::VirtAddr {
+        va!(0)
+    }
+
+    fn virt_to_phys(_vaddr: memory_addr::VirtAddr) -> memory_addr::PhysAddr {
+        pa!(0)
+    }
 }
 
 #[impl_plat_interface]
