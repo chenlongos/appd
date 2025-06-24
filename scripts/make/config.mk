@@ -10,6 +10,9 @@ ifneq ($(SMP),)
   config_args += -w 'plat.cpu-num=$(SMP)'
 else
   SMP := $(shell axconfig-gen $(PLAT_CONFIG) -r plat.cpu-num 2>/dev/null)
+  ifeq ($(SMP),)
+    $(error "`plat.cpu-num` is not defined in the platform configuration file")
+  endif
 endif
 
 define defconfig

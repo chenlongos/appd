@@ -20,14 +20,17 @@ ifeq ($(MYPLAT),)
   else
     $(error "ARCH" must be one of "x86_64", "riscv64", "aarch64" or "loongarch64")
   endif
-  PLAT_CONFIG := $(resolve_config)
+  PLAT_CONFIG := $(resolve_config)  
+  # We don't need to check the validity of `PLAT_CONFIG` here, as the `PLAT_PACKAGE`
+  # is a valid pacakage. So if the `PLAT_CONFIG` is not compatible with the `PLAT_PACKAGE`,
+  # it will be caught by the `resolve_config` function.
+  
 else
   # `MYPLAT` is specified, treat it as a package name
   PLAT_PACKAGE := $(MYPLAT)
   # We have checked the validity of `MYPLAT`, so the `PLAT_CONFIG` should be valid too.
   PLAT_CONFIG := $(resolve_config)
-
-  ifeq ($(PLAT_CONFIG),)
+  ifeq ($(strip $(PLAT_CONFIG)),)
     $(error "MYPLAT=$(MYPLAT) is not a valid platform package name")
   endif
 

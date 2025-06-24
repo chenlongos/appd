@@ -249,7 +249,7 @@ fn do_uname(_args: &str) {
     let arch = option_env!("AX_ARCH").unwrap_or("");
     let platform = option_env!("AX_PLATFORM").unwrap_or("");
     #[cfg(feature = "axstd")]
-    let smp = if std::os::arceos::api::config::plat::CPU_NUM == 1 {
+    let smp = if std::thread::available_parallelism().unwrap().get() == 1 {
         ""
     } else {
         " SMP"
