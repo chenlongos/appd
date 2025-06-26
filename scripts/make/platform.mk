@@ -2,10 +2,16 @@
 
 resolve_config = \
   $(if $(wildcard $(PLAT_CONFIG)),\
-    $(if $(filter "$(PLAT_PACKAGE)",$(shell axconfig-gen $(PLAT_CONFIG) -r package)),\
-      $(PLAT_CONFIG),\
-      $(error "PLAT_CONFIG=$(PLAT_CONFIG)" is not compatible with "PLAT_PACKAGE=$(PLAT_PACKAGE)")),\
-    $(shell cargo axplat info -c $(PLAT_PACKAGE) 2>/dev/null))
+       $(PLAT_CONFIG),\
+       $(shell cargo axplat info -c $(PLAT_PACKAGE) 2>/dev/null))
+
+define validate_config
+  $(eval package := $(shell axconfig-gen $(PLAT_CONFIG) -r package 2>/dev/null))
+  $(if $(package),\
+       $(if $(filter "$(PLAT_PACKAGE)",$(package)),,\
+            $(error "PLAT_CONFIG=$(PLAT_CONFIG)" is not compatible with "PLAT_PACKAGE=$(PLAT_PACKAGE)")),\
+       $(error "PLAT_CONFIG=$(PLAT_CONFIG) is not a valid platform configuration file"))
+endef
 
 ifeq ($(MYPLAT),)
   # `MYPLAT` is not specified, use the default platform for each architecture
@@ -21,18 +27,18 @@ ifeq ($(MYPLAT),)
     $(error "ARCH" must be one of "x86_64", "riscv64", "aarch64" or "loongarch64")
   endif
   PLAT_CONFIG := $(resolve_config)  
-  # We don't need to check the validity of `PLAT_CONFIG` here, as the `PLAT_PACKAGE`
-  # is a valid pacakage. So if the `PLAT_CONFIG` is not compatible with the `PLAT_PACKAGE`,
-  # it will be caught by the `resolve_config` function.
-  
+  # We don't need to check whether `PLAT_CONFIG` is empty here, as the `PLAT_PACKAGE`
+  # is a valid pacakage.
+
+  $(call validate_config)
 else
   # `MYPLAT` is specified, treat it as a package name
   PLAT_PACKAGE := $(MYPLAT)
-  # We have checked the validity of `MYPLAT`, so the `PLAT_CONFIG` should be valid too.
   PLAT_CONFIG := $(resolve_config)
   ifeq ($(strip $(PLAT_CONFIG)),)
     $(error "MYPLAT=$(MYPLAT) is not a valid platform package name")
   endif
+  $(call validate_config)
 
   # Read the architecture name from the configuration file
   _arch := $(patsubst "%",%,$(shell axconfig-gen $(PLAT_CONFIG) -r arch))
