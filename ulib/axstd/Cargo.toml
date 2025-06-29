@@ -59,6 +59,9 @@ display = ["arceos_api/display", "axfeat/display"]
 # Real Time Clock (RTC) Driver.
 rtc = ["axfeat/rtc"]
 
+# Watchdog Driver
+wdt = ["axfeat/wdt"]
+
 # Device drivers
 bus-mmio = ["axfeat/bus-mmio"]
 bus-pci = ["axfeat/bus-pci"]

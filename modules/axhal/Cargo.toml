@@ -16,6 +16,7 @@ paging = ["axalloc", "page_table_multiarch"]
 irq = []
 tls = ["axcpu/tls"]
 rtc = ["x86_rtc", "riscv_goldfish", "arm_pl031"]
+wdt = []
 uspace = ["paging", "axcpu/uspace"]
 default = []
 
