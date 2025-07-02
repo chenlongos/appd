@@ -39,7 +39,7 @@ extern crate log;
 #[macro_use]
 extern crate memory_addr;
 
-mod platform;
+pub mod platform;
 
 pub mod cpu;
 pub mod mem;

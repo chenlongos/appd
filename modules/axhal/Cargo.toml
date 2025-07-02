@@ -20,6 +20,8 @@ uspace = ["paging", "axcpu/uspace"]
 default = []
 
 [dependencies]
+safe-mmio = "0.2.5"
+zerocopy = "0.8.26"
 log = "=0.4.21"
 cfg-if = "1.0"
 linkme = "0.3.33"

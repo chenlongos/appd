@@ -1,5 +1,5 @@
+pub mod gpio;
 pub mod mem;
-
 #[cfg(feature = "smp")]
 pub mod mp;
 
