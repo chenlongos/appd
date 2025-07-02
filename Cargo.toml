@@ -29,6 +29,7 @@ members = [
     "examples/httpserver",
     "examples/httpserver",
     "examples/shell",
+    "examples/watchdog_test",
 ]
 
 [workspace.package]

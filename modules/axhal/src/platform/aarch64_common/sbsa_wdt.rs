@@ -20,6 +20,7 @@ static WDT: SpinNoIrq<SbsaWdt> =
 
 /// Start Watchdog
 pub fn start_watchdog() {
+    axlog::debug!("starting watchdog");
     let wdt = WDT.lock();
     unsafe {
         // Enable Watchdog Timer
@@ -29,15 +30,17 @@ pub fn start_watchdog() {
 }
 
 pub fn set_watchdog_timeout(timeout: u32) {
+    axlog::debug!("set watchdog timeout: {timeout}");
     let clk = CNTFRQ_EL0.get();
     let wdt = WDT.lock();
     unsafe {
         core::ptr::write_volatile(
-            (wdt.0 + SBSA_GWDT_WOR) as *mut u32, (clk * timeout as u64) as u32);
+            (wdt.0 + SBSA_GWDT_WOR) as *mut u32, (clk * timeout as u64 / 2) as u32);
     }
 }
 
 pub fn stop_watchdog() {
+    axlog::debug!("stopping watchdog");
     let wdt = WDT.lock();
     unsafe {
         // Disable Watchdog Timer
@@ -47,6 +50,7 @@ pub fn stop_watchdog() {
 }
 
 pub fn ping_watchdog() {
+    axlog::debug!("feeding watchdog");
     let wdt = WDT.lock();
     unsafe {
         // Write to Watchdog Timer Reset Register to reset the timer

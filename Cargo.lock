@@ -138,6 +138,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "arceos-watchdog_test"
+version = "0.1.0"
+dependencies = [
+ "axstd",
+]
+
+[[package]]
 name = "arceos_api"
 version = "0.1.0"
 dependencies = [
