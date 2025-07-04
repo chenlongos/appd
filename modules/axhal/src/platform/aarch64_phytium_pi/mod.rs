@@ -1,4 +1,6 @@
 pub mod mem;
+pub mod mio;
+pub mod uart;
 
 #[cfg(feature = "smp")]
 pub mod mp;
@@ -23,6 +25,8 @@ pub mod misc {
             axcpu::asm::halt();
         }
     }
+    pub use super::mio::*;
+    pub use super::uart::*;
 }
 
 unsafe extern "C" {
