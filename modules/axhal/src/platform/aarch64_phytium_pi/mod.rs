@@ -1,5 +1,10 @@
 pub mod mem;
+<<<<<<< HEAD
 use core::ptr;
+=======
+pub mod mio;
+pub mod uart;
+>>>>>>> 897c85c5 (uart: test ok)
 
 #[cfg(feature = "smp")]
 pub mod mp;
@@ -31,6 +36,8 @@ pub mod misc {
     pub use crate::mem::phys_to_virt;
 
     pub use super::tacho::*;
+    pub use super::mio::*;
+    pub use super::uart::*;
 }
 
 extern "C" {
