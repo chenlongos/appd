@@ -162,6 +162,8 @@ mod arch {
     }
 }
 
+extern crate alloc;
+
 use alloc::boxed::Box;
 pub use arch::*;
 
@@ -196,7 +198,6 @@ pub(crate) fn msdelay(ms: u64) {
 }
 
 /// 虚拟地址转换成物理地址
-#[linkage = "weak"]
 #[unsafe(export_name = "virt_to_phys_fxmac")]
 pub(crate) fn virt_to_phys(addr: usize) -> usize {
     debug!("fxmac: virt_to_phys_fxmac {:#x}", addr);
@@ -204,7 +205,6 @@ pub(crate) fn virt_to_phys(addr: usize) -> usize {
 }
 
 /// 物理地址转换成虚拟地址
-#[linkage = "weak"]
 #[unsafe(export_name = "phys_to_virt_fxmac")]
 pub(crate) fn phys_to_virt(addr: usize) -> usize {
     debug!("fxmac: phys_to_virt_fxmac {:#x}", addr);
@@ -212,7 +212,6 @@ pub(crate) fn phys_to_virt(addr: usize) -> usize {
 }
 
 /// 申请DMA连续内存页
-#[linkage = "weak"]
 #[unsafe(export_name = "dma_alloc_coherent_fxmac")]
 pub(crate) fn dma_alloc_coherent(pages: usize) -> (usize, usize) {
     let paddr: Box<[u32]> = if pages == 1 {
@@ -235,7 +234,6 @@ pub(crate) fn dma_alloc_coherent(pages: usize) -> (usize, usize) {
 }
 
 /// 释放DMA内存页
-#[linkage = "weak"]
 #[unsafe(export_name = "dma_free_coherent_fxmac")]
 pub(crate) fn dma_free_coherent(vaddr: usize, pages: usize) {
     debug!("fxmac: dma free vaddr: {:#x}, pages={}", vaddr, pages);
@@ -246,7 +244,6 @@ pub(crate) fn dma_free_coherent(vaddr: usize, pages: usize) {
 }
 
 /// 请求分配irq
-#[linkage = "weak"]
 #[unsafe(export_name = "dma_request_irq_fxmac")]
 pub(crate) fn dma_request_irq(irq: usize, handler: fn()) {
     warn!("dma_request_irq_fxmac unimplemented");

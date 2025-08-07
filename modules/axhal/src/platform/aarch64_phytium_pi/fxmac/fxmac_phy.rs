@@ -1,5 +1,5 @@
-use crate::fxmac_const::*;
-use crate::fxmac::*;
+use super::fxmac_const::*;
+use super::fxmac::*;
 
 pub const PHY_CONTROL_REG_OFFSET: u32 = 0;
 pub const PHY_STATUS_REG_OFFSET: u32 = 1;
@@ -297,7 +297,7 @@ pub fn FXmacGetIeeePhySpeed(instance_p: &mut FXmac, phy_addr: u32) -> u32
     info!("Waiting for phy to complete auto negotiation.");
     loop{
         // 睡眠50毫秒
-        crate::utils::msdelay(50);
+        super::utils::msdelay(50);
 
         ret = FXmacPhyRead(instance_p, phy_addr, PHY_STATUS_REG_OFFSET, &mut status);
         if (ret != FT_SUCCESS)
@@ -434,7 +434,7 @@ pub fn FXmacConfigureIeeePhySpeed(instance_p: &mut FXmac, phy_addr: u32, speed: 
     }
 
     //FDriverMdelay(1500);
-    crate::utils::msdelay(1500);
+    super::utils::msdelay(1500);
 
     info!("Manual selection completed.");
 

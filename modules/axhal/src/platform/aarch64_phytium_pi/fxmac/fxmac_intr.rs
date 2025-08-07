@@ -1,11 +1,11 @@
 use core::sync::atomic::AtomicPtr;
 use core::sync::atomic::Ordering;
-
+extern crate alloc;
 use alloc::boxed::Box;
 
-use crate::fxmac_const::*;
-use crate::fxmac::*;
-use crate::fxmac_dma::*;
+use super::fxmac_const::*;
+use super::fxmac::*;
+use super::fxmac_dma::*;
 
 /* XMAC */
 pub const FXMAC_NUM:u32 = 4;
@@ -425,6 +425,6 @@ pub fn FXmacSetupIsr(instance: &mut FXmac)
 
     // SPI(Shared Peripheral Interrupt) rang: 32..1020
     info!("register callback function for irq: {}", irq_num);
-    crate_interface::call_interface!(crate::KernelFunc::dma_request_irq(irq_num, xmac_intr_handler));
+    crate_interface::call_interface!(super::KernelFunc::dma_request_irq(irq_num, xmac_intr_handler));
 
 }

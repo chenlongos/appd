@@ -3,12 +3,14 @@ use core::ptr::{null_mut, null};
 use core::mem::size_of;
 use core::slice::from_raw_parts_mut;
 
+extern crate alloc;
+
 use alloc::boxed::Box;
 use alloc::vec::Vec;
-use crate::fxmac_const::*;
-use crate::fxmac_phy::*;
-use crate::fxmac::*;
-use crate::utils::*;
+use super::fxmac_const::*;
+use super::fxmac_phy::*;
+use super::fxmac::*;
+use super::utils::*;
 
 // fxmac_lwip_port.h
 pub const FXMAX_RX_BDSPACE_LENGTH: usize = FXMAX_RX_PBUFS_LENGTH * 64; // 0x20000, default set 128KB
@@ -158,10 +160,10 @@ impl Default for FXmacNetifBuffer {
     fn default() -> Self {
 
         let alloc_pages = (FXMAX_RX_BDSPACE_LENGTH + (PAGE_SIZE - 1)) / PAGE_SIZE;
-        let (mut rx_vaddr, mut rx_dma) = crate_interface::call_interface!(crate::KernelFunc::dma_alloc_coherent(alloc_pages));
+        let (mut rx_vaddr, mut rx_dma) = crate_interface::call_interface!(super::KernelFunc::dma_alloc_coherent(alloc_pages));
 
         let alloc_pages = (FXMAX_TX_BDSPACE_LENGTH + (PAGE_SIZE - 1)) / PAGE_SIZE;
-        let (mut tx_vaddr, mut tx_dma) = crate_interface::call_interface!(crate::KernelFunc::dma_alloc_coherent(alloc_pages));
+        let (mut tx_vaddr, mut tx_dma) = crate_interface::call_interface!(super::KernelFunc::dma_alloc_coherent(alloc_pages));
 
         //let rx_buf = unsafe { from_raw_parts_mut(vaddr as *mut u8, FXMAX_RX_BDSPACE_LENGTH) };
 
@@ -186,13 +188,13 @@ pub struct FXmacLwipPort
 
 pub fn fxmac_bd_read(bd_ptr: u64, offset: u32) -> u32 {
     trace!("fxmac_bd_read at {:#x}", bd_ptr + offset as u64);
-    read_reg((crate_interface::call_interface!(crate::KernelFunc::virt_to_phys(bd_ptr as usize)) + offset as usize) as *const u32)
+    read_reg((crate_interface::call_interface!(super::KernelFunc::virt_to_phys(bd_ptr as usize)) + offset as usize) as *const u32)
 }
 pub fn fxmac_bd_write(bd_ptr: u64, offset: u32, data: u32)
 {
     debug!("fxmac_bd_write {:#x} to {:#x}", data, bd_ptr + offset as u64);
     // uintptr: u64
-    write_reg((crate_interface::call_interface!(crate::KernelFunc::virt_to_phys(bd_ptr as usize)) + offset as usize) as *mut u32, data);
+    write_reg((crate_interface::call_interface!(super::KernelFunc::virt_to_phys(bd_ptr as usize)) + offset as usize) as *mut u32, data);
 }
     
 /// FXmacBdSetRxWrap
@@ -290,7 +292,7 @@ pub fn FXmacAllocDmaPbufs(instance_p: &mut FXmac) -> u32 {
 
         let alloc_rx_buffer_pages = (max_frame_size as usize + (PAGE_SIZE - 1)) / PAGE_SIZE;
         let (mut rx_mbufs_vaddr, mut rx_mbufs_dma) = 
-        crate_interface::call_interface!(crate::KernelFunc::dma_alloc_coherent(alloc_rx_buffer_pages));
+        crate_interface::call_interface!(super::KernelFunc::dma_alloc_coherent(alloc_rx_buffer_pages));
 
     let rxringptr: &mut FXmacBdRing = &mut instance_p.rx_bd_queue.bdring;
         let mut rxbd: *mut FXmacBd = null_mut();
@@ -326,10 +328,10 @@ pub fn FXmacAllocDmaPbufs(instance_p: &mut FXmac) -> u32 {
         // Clear word 1 in  descriptor
         temp.add(1).write_volatile(0);
         }
-        crate::utils::DSB();
+        super::utils::DSB();
 
         // dc civac, virt_addr 通过虚拟地址清除和无效化cache
-        crate::utils::FCacheDCacheInvalidateRange(rx_mbufs_vaddr as u64, max_frame_size as u64);
+        super::utils::FCacheDCacheInvalidateRange(rx_mbufs_vaddr as u64, max_frame_size as u64);
 
         // Set the BD's address field (word 0)
         // void *payload; 指向数据区域的指针，指向该pbuf管理的数据区域起始地址，可以是ROM或者RAM中的某个地址
@@ -347,7 +349,7 @@ pub fn FXmacAllocDmaPbufs(instance_p: &mut FXmac) -> u32 {
             };
             let alloc_pages = (max_fr_size as usize + (PAGE_SIZE - 1)) / PAGE_SIZE;
             let (mut tx_mbufs_vaddr, mut tx_mbufs_dma) = 
-            crate_interface::call_interface!(crate::KernelFunc::dma_alloc_coherent(alloc_pages));
+            crate_interface::call_interface!(super::KernelFunc::dma_alloc_coherent(alloc_pages));
     
             instance_p.lwipport.buffer.tx_pbufs_storage[index as usize] = tx_mbufs_vaddr as u64;
 
@@ -367,7 +369,7 @@ pub fn FXmacAllocDmaPbufs(instance_p: &mut FXmac) -> u32 {
             //debug!("TX DMA DESC {}: {:#010x?}", index, unsafe{*(txbd as *const macb_dma_desc)});
 
             //curbdpntr = FXMAC_BD_RING_NEXT(txring, curbdpntr);
-            crate::utils::DSB();
+            super::utils::DSB();
         }
     0
 }
@@ -521,7 +523,7 @@ pub fn FXmacBdRingClone(ring_ptr: &mut FXmacBdRing, src_bd_ptr: & FXmacBd, direc
         // 将所有BD逐个复制成bdtemplate
         let cur_bd_slice = unsafe { from_raw_parts_mut(cur_bd as *mut FXmacBd, 1) };
         cur_bd_slice[0].copy_from_slice(src_bd_ptr);
-        crate::utils::DSB();
+        super::utils::DSB();
 
         cur_bd += ring_ptr.separation as u64;
     }
@@ -795,7 +797,7 @@ pub fn FXmacSgsend(instance_p: &mut FXmac, p: Vec<Vec<u8>>) -> u32 {
         let pbufs_virt = instance_p.lwipport.buffer.tx_pbufs_storage[bdindex as usize];
         let pbuf = unsafe { from_raw_parts_mut(pbufs_virt as *mut u8, pbufs_len) };
         pbuf.copy_from_slice(q);
-        crate::utils::FCacheDCacheFlushRange(pbufs_virt, pbufs_len as u64);
+        super::utils::FCacheDCacheFlushRange(pbufs_virt, pbufs_len as u64);
          warn!(">>>>>>>>> TX PKT {} @{:#x} - {}", pbufs_len, pbufs_virt, bdindex);
 
         debug!(">>>>>>>>> {:x?}", pbuf);
@@ -851,10 +853,10 @@ pub fn FXmacSgsend(instance_p: &mut FXmac, p: Vec<Vec<u8>>) -> u32 {
     for q in 1..p.len() {
         txbd = FXMAC_BD_RING_NEXT(txring, txbd);
         FXMAC_BD_CLEAR_TX_USED(txbd as u64);
-        crate::utils::DSB();
+        super::utils::DSB();
     }
     FXMAC_BD_CLEAR_TX_USED(txbdset as u64); // 最后清第一个BD
-    crate::utils::DSB();
+    super::utils::DSB();
 
     status = FXmacBdRingToHw(txring, n_pbufs, txbdset);
 
@@ -937,7 +939,7 @@ pub fn FXmacRecvHandler(instance_p: &mut FXmac) -> Option<Vec<Vec<u8>>> {
     
             // Invalidate RX frame before queuing to handle
             // L1 cache prefetch conditions on any architecture.
-            crate::utils::FCacheDCacheInvalidateRange(instance_p.lwipport.buffer.rx_pbufs_storage[bdindex as usize], rx_bytes as u64);
+            super::utils::FCacheDCacheInvalidateRange(instance_p.lwipport.buffer.rx_pbufs_storage[bdindex as usize], rx_bytes as u64);
 
             /* store it in the receive queue,
              * where it'll be processed by a different handler
@@ -992,7 +994,7 @@ pub fn SetupRxBds(instance_p: &mut FXmac) {
 
         // 继续使用前面申请过的dma pbufs, 不再清理并重新申请
         //let (mut rx_mbufs_vaddr, mut rx_mbufs_dma) = crate::utils::dma_alloc_coherent(alloc_rx_buffer_pages);
-        //crate::utils::FCacheDCacheInvalidateRange(rx_mbufs_vaddr as u64, max_frame_size as u64);
+        //super::utils::FCacheDCacheInvalidateRange(rx_mbufs_vaddr as u64, max_frame_size as u64);
 
         let bdindex: u32 = FXMAC_BD_TO_INDEX(rxring, rxbd as u64);
 
@@ -1010,7 +1012,7 @@ pub fn SetupRxBds(instance_p: &mut FXmac) {
         temp.add(1).write_volatile(0); // clear rx ctl
         temp.write_volatile(v); // set rx addr
         }
-        crate::utils::DSB();
+        super::utils::DSB();
 
         // 设置BD的地址字段(word 0)
         //fxmac_bd_set_address_rx(rxbd as u64, rx_mbufs_dma as u64);
@@ -1112,7 +1114,7 @@ fn FreeOnlyTxPbufs(instance_p: &mut FXmac)
         {
             let pbuf = instance_p.lwipport.buffer.tx_pbufs_storage[index];
             let pages = (FXMAC_MAX_FRAME_SIZE as usize + (PAGE_SIZE - 1)) / PAGE_SIZE;
-            crate_interface::call_interface!(crate::KernelFunc::dma_free_coherent(pbuf as usize, pages));
+            crate_interface::call_interface!(super::KernelFunc::dma_free_coherent(pbuf as usize, pages));
 
             instance_p.lwipport.buffer.tx_pbufs_storage[index] = 0;
         }
@@ -1151,14 +1153,14 @@ pub fn FXmacProcessSentBds(instance_p: &mut FXmac)
             //temp.write_volatile(0); // 这里不再对dma buffer地址清0
             temp.add(1).write_volatile(v); // 设置dma desc的ctrl
             }
-            crate::utils::DSB();
+            super::utils::DSB();
 
             //let pbuf = instance_p.lwipport.buffer.tx_pbufs_storage[bdindex];
             /* if pbuf != 0 {
                 // pbuf_free(p);
                 let pages = (FXMAC_MAX_FRAME_SIZE as usize + (PAGE_SIZE - 1)) / PAGE_SIZE;
                 // Deallocate DMA memory by virtual address
-                crate::utils::dma_free_coherent(pbuf as usize, pages);
+                super::utils::dma_free_coherent(pbuf as usize, pages);
             } */
 
             //instance_p.lwipport.buffer.tx_pbufs_storage[bdindex] = 0;
@@ -1168,7 +1170,7 @@ pub fn FXmacProcessSentBds(instance_p: &mut FXmac)
             assert!(curbdpntr as usize != b as usize);
 
             n_pbufs_freed -= 1;
-            crate::utils::DSB();
+            super::utils::DSB();
         }
 
         FXmacBdRingFree(txring, n_bds);
