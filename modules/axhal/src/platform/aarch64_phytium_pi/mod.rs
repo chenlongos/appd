@@ -1,10 +1,7 @@
 pub mod mem;
-<<<<<<< HEAD
 use core::ptr;
-=======
 pub mod mio;
 pub mod uart;
->>>>>>> 897c85c5 (uart: test ok)
 
 #[cfg(feature = "smp")]
 pub mod mp;
