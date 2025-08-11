@@ -1,8 +1,8 @@
-use axhal::time::busy_wait;
+use crate::time::busy_wait;
 use core::time::Duration;
 use log::*;
 
-use crate::driver_iic::io::*;
+use super::io::*;
 
 // 定义速度配置相关的结构体
 #[derive(Debug, Clone, Copy, Default)]

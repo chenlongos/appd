@@ -1,4 +1,4 @@
-use crate::driver_iic::i2c::*;
+use super::i2c::*;
 
 pub const FI2C_CONFIG_TBL: [FI2cConfig; 1] = [FI2cConfig {
     instance_id: 1,

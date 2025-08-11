@@ -1,9 +1,9 @@
 use core::mem::size_of;
 use log::*;
 
-use crate::driver_iic::io::*;
+use super::super::driver_iic::io::*;
 
-use crate::driver_mio::mio_hw::*;
+use super::mio_hw::*;
 
 fn fiopad_reg0_func_set(x: u8) -> u32 {
     ((x as u32) << 0) & (((!0u32) - (1u32 << (0)) + 1) & (!0u32 >> (32 - 1 - (2))))

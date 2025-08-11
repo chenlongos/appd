@@ -1,7 +1,7 @@
 use log::*;
 
-use crate::driver_iic::i2c_hw::*;
-use crate::driver_iic::io::*;
+use super::i2c_hw::*;
+use super::io::*;
 
 /// I2C设备配置结构体
 #[derive(Debug, Clone, Copy, Default)]

@@ -11,6 +11,7 @@ pub mod tacho;
 pub mod cru; 
 pub mod pinctrl;
 pub mod clock;
+pub mod i2c;
 
 #[cfg(feature = "irq")]
 pub mod irq {
@@ -41,6 +42,7 @@ pub mod misc {
     pub use super::cru::*;
     pub use super::pinctrl::*;
     pub use super::clock::*;
+    pub use super::i2c::*;
 }
 
 extern "C" {

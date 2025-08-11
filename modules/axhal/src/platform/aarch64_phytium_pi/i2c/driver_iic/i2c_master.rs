@@ -1,11 +1,11 @@
-use axhal::time::busy_wait;
+use crate::time::busy_wait;
 use core::time::Duration;
 use log::*;
 
-use crate::driver_iic::i2c::*;
-use crate::driver_iic::i2c_hw::*;
-use crate::driver_iic::i2c_intr::*;
-use crate::driver_iic::io::*;
+use super::i2c::*;
+use super::i2c_hw::*;
+use super::i2c_intr::*;
+use super::io::*;
 
 fn fi2c_data_mask() -> u32 {
     ((!0u32) - (1u32 << 0) + 1) & (!0u32 >> (32 - 1 - 7))

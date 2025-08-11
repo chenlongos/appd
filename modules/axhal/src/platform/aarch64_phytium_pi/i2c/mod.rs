@@ -11,9 +11,9 @@ pub mod driver_iic;
 pub mod driver_mio;
 pub mod example;
 
-use crate::driver_iic::io::*;
+use self::driver_iic::io::*;
 
-use crate::example::*;
+use self::example::*;
 
 const OLED_INIT_CMDS: [u8; 24] = [
     0xAE, // Display off

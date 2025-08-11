@@ -1,4 +1,4 @@
-use crate::driver_iic::io::*;
+use super::super::driver_iic::io::*;
 
 pub fn fmio_func_state_mask() -> u32 {
     ((!0u32) - (1u32 << (0)) + 1) & (!0u32 >> (32 - 1 - (1)))

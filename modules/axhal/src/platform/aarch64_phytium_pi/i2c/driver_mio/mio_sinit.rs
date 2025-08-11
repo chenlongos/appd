@@ -1,4 +1,4 @@
-use crate::driver_mio::mio::*;
+use super::mio::*;
 
 pub static FMIO_CONFIG_TBL: [FMioConfig; 3] = [
     FMioConfig {

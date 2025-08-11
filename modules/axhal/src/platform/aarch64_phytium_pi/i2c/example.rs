@@ -1,13 +1,13 @@
 use core::slice;
 use log::*;
 
-use crate::driver_iic::i2c::*;
-use crate::driver_iic::i2c_master::*;
-use crate::driver_iic::i2c_sinit::*;
-use crate::driver_iic::io::*;
+use super::driver_iic::i2c::*;
+use super::driver_iic::i2c_master::*;
+use super::driver_iic::i2c_sinit::*;
+use super::driver_iic::io::*;
 
-use crate::driver_mio::mio::*;
-use crate::driver_mio::mio_sinit::*;
+use super::driver_mio::mio::*;
+use super::driver_mio::mio_sinit::*;
 
 // 定义FI2cSlaveData结构体
 #[derive(Debug, Clone, Copy)]

@@ -1,8 +1,8 @@
 use log::*;
 
-use crate::driver_iic::i2c::*;
-use crate::driver_iic::i2c_hw::*;
-use crate::driver_iic::io::*;
+use super::i2c::*;
+use super::i2c_hw::*;
+use super::io::*;
 
 //暂时不用中断，先不翻译完，巨多（悲）
 
