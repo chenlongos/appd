@@ -1,6 +1,6 @@
 use core::ptr::NonNull;
 use tock_registers::{
-    interfaces::{Readable, Writeable},
+    interfaces::{Readable, ReadWriteable},
     register_bitfields, register_structs,
     registers::{ReadOnly, ReadWrite},
 };
@@ -58,6 +58,7 @@ pub struct FClockConfig {
     pub base_address: usize,
 }
 
+#[derive(Clone, Copy)]
 pub struct FClockCtrl {
     pub config: FClockConfig,
     pub is_ready: u32,
@@ -77,8 +78,8 @@ pub static CLOCK: SpinNoIrq<FClockCtrl> = SpinNoIrq::new(FClockCtrl {
 });
 
 pub fn FClockInit(instance_p: &mut FClockCtrl, config_p: &FClockConfig) -> bool {
-    assert!(Some(*instance_p).is_some() && Some(*config_p).is_some());
-    let mut ret = true;
+    assert!(instance_p as *const _ as usize != 0 && config_p as *const _ as usize != 0);
+    let ret = true;
     if instance_p.is_ready == 0x11111111u32 {
         info!("Clock already initialized.");
         return false;

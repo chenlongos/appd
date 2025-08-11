@@ -3,7 +3,7 @@ use core::ptr::NonNull;
 use tock_registers::{
     interfaces::{Readable, Writeable},
     register_bitfields, register_structs,
-    registers::{ReadOnly, ReadWrite, WriteOnly},
+    registers::{ReadOnly, ReadWrite},
 };
 register_structs! {
     PhitiumMioRegisters {

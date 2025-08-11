@@ -1,11 +1,12 @@
 use core::ptr::NonNull;
 use tock_registers::{
-    interfaces::{Readable, Writeable},
+    interfaces::Readable,
     register_bitfields, register_structs,
     registers::{ReadOnly, ReadWrite},
 };
 use kspin::SpinNoIrq;
 use crate::mem::{phys_to_virt, PhysAddr};
+use tock_registers::interfaces::ReadWriteable;
 
 // CRU 寄存器定义
 register_structs! {
@@ -55,6 +56,7 @@ pub struct FResetConfig {
     pub base_address: usize,
 }
 
+#[derive(Clone, Copy)]
 pub struct FResetCtrl {
     pub config: FResetConfig,
     pub is_ready: u32,
@@ -75,7 +77,7 @@ pub static CRU: SpinNoIrq<FResetCtrl> = SpinNoIrq::new(FResetCtrl {
 
 pub fn FResetInit(instance_p: &mut FResetCtrl, config_p: &FResetConfig) -> bool {
     assert!(Some(*instance_p).is_some() && Some(*config_p).is_some());
-    let mut ret = true;
+    let ret = true;
     if instance_p.is_ready == 0x11111111u32 {
         info!("CRU already initialized.");
         return false;

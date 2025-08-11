@@ -1,4 +1,4 @@
-use core::{ptr::NonNull, time::Duration};
+use core::ptr::NonNull;
 
 use tock_registers::interfaces::ReadWriteable;
 use tock_registers::{
