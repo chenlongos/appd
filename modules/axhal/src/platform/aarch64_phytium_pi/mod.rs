@@ -8,6 +8,8 @@ pub mod mp;
 
 pub mod pwm;
 pub mod tacho;
+pub mod cru; 
+pub mod pinctrl; 
 
 #[cfg(feature = "irq")]
 pub mod irq {
@@ -35,6 +37,8 @@ pub mod misc {
     pub use super::tacho::*;
     pub use super::mio::*;
     pub use super::uart::*;
+    pub use super::cru::*;
+    pub use super::pinctrl::*;
 }
 
 extern "C" {
@@ -100,6 +104,8 @@ pub fn platform_init() {
     super::aarch64_common::gic::init_primary();
     super::aarch64_common::generic_timer::init_percpu();
     super::aarch64_common::pl011::init();
+    cru::FResetInit(&mut cru::CRU.lock(), &cru::FResetLookupConfig(0).unwrap());
+    pinctrl::FIOPadCfgInitialize(&mut pinctrl::PAD.lock(), &pinctrl::FIOPadLookupConfig(0).unwrap());
 }
 
 /// Initializes the platform devices for secondary CPUs.
