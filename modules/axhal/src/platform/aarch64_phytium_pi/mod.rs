@@ -12,6 +12,7 @@ pub mod cru;
 pub mod pinctrl;
 pub mod clock;
 pub mod i2c;
+pub mod igb;
 
 pub mod driver_gpio;
 pub mod driver_watchdog;

@@ -1,9 +1,10 @@
 use core::ops::{Deref, DerefMut};
 
+extern crate alloc;
 use alloc::sync::Arc;
 use log::trace;
 
-use crate::descriptor::{TxAdvDescCmd, TxAdvDescType};
+use super::super::descriptor::{TxAdvDescCmd, TxAdvDescType};
 
 use super::*;
 struct RingInner {

@@ -1,5 +1,7 @@
 use core::{cell::UnsafeCell, ptr::NonNull, time::Duration};
 
+extern crate alloc;
+
 use alloc::vec::Vec;
 use dma_api::{DVec, Direction};
 use futures::task::AtomicWaker;
@@ -7,7 +9,7 @@ use log::debug;
 use mbarrier::mb;
 use tock_registers::register_bitfields;
 
-use crate::{
+use super::{
     Request,
     descriptor::{AdvTxDesc, Descriptor},
     err::DError,

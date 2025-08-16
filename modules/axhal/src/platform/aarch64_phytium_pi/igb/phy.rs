@@ -1,7 +1,7 @@
 use log::debug;
 use tock_registers::register_bitfields;
 
-use crate::{err::DError, mac::Mac, osal::wait_for};
+use super::{err::DError, mac::Mac, osal::wait_for};
 
 const PHY_CONTROL: u32 = 0;
 const PHY_STATUS: u32 = 1;

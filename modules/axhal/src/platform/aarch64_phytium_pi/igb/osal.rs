@@ -2,7 +2,7 @@ use core::time::Duration;
 
 use trait_ffi::def_extern_trait;
 
-use crate::DError;
+use super::DError;
 
 #[def_extern_trait]
 pub trait Kernel {

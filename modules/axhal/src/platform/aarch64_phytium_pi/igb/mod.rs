@@ -8,8 +8,8 @@ use log::debug;
 pub use mac::{MacAddr6, MacStatus};
 pub use trait_ffi::impl_extern_trait;
 
-pub use crate::err::DError;
-use crate::ring::DEFAULT_RING_SIZE;
+pub use err::DError;
+use ring::DEFAULT_RING_SIZE;
 
 extern crate alloc;
 

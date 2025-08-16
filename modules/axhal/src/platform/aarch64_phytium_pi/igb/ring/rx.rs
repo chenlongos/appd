@@ -1,9 +1,9 @@
 use core::ops::{Deref, DerefMut};
 
 use super::*;
-use crate::{
+use super::{
     DError,
-    descriptor::{AdvRxDesc, AdvRxDescRead},
+    super::descriptor::{AdvRxDesc, AdvRxDescRead},
 };
 use alloc::sync::Arc;
 use log::{error, trace};

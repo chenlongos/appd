@@ -4,7 +4,7 @@ use log::error;
 use mbarrier::mb;
 use tock_registers::{interfaces::*, register_bitfields, register_structs, registers::*};
 
-use crate::{DError, Speed, osal::wait_for};
+use super::{DError, Speed, osal::wait_for};
 
 register_structs! {
     pub MacRegister {
@@ -502,7 +502,7 @@ impl Mac {
             .ctrl
             .modify(CTRL::RST::Reset + CTRL::PHY_RST::SET);
         wait_for(
-            || self.reg().ctrl.matches_any(&[CTRL::RST::Normal]),
+            || self.reg().ctrl.matches_any(CTRL::RST::Normal),
             Duration::from_millis(1),
             Some(1000),
         )
