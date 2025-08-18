@@ -14,6 +14,7 @@ pub mod clock;
 pub mod i2c;
 pub mod driver_pwm;
 pub mod driver_gpio;
+pub mod driver_watchdog;
 
 #[cfg(feature = "irq")]
 pub mod irq {
@@ -47,6 +48,7 @@ pub mod misc {
     pub use super::i2c::*;
     pub use super::driver_pwm::*;
     pub use super::driver_gpio::*;
+    pub use super::driver_watchdog::*;
 }
 
 extern "C" {
@@ -117,6 +119,7 @@ pub fn platform_init() {
     clock::FClockInit(&mut clock::CLOCK.lock(), &clock::FClockLookupConfig(0).unwrap());
     driver_pwm::init_pwm();
     driver_gpio::init_gpio();
+    driver_watchdog::init_watchdog();
 }
 
 /// Initializes the platform devices for secondary CPUs.
