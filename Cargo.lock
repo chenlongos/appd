@@ -394,6 +394,7 @@ dependencies = [
  "axlog",
  "bitflags 2.6.0",
  "cfg-if",
+ "crate_interface",
  "dma-api",
  "dw_apb_uart",
  "futures",
@@ -1979,5 +1980,5 @@ checksum = "9ecf5b4cc5364572d7f4c329661bcc82724222973f2cab6f050a4e5c22f75181"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.70",
+ "syn 2.0.105",
 ]
