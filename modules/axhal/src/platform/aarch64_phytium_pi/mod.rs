@@ -15,6 +15,7 @@ pub mod i2c;
 pub mod driver_pwm;
 pub mod driver_gpio;
 pub mod driver_watchdog;
+pub mod driver_spi;
 
 #[cfg(feature = "irq")]
 pub mod irq {
@@ -49,6 +50,7 @@ pub mod misc {
     pub use super::driver_pwm::*;
     pub use super::driver_gpio::*;
     pub use super::driver_watchdog::*;
+    pub use super::driver_spi::*;
 }
 
 extern "C" {
@@ -120,6 +122,7 @@ pub fn platform_init() {
     driver_pwm::init_pwm();
     driver_gpio::init_gpio();
     driver_watchdog::init_watchdog();
+    driver_spi::init_spi();
 }
 
 /// Initializes the platform devices for secondary CPUs.
