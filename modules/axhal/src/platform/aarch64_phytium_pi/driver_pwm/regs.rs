@@ -1,36 +1,35 @@
 use tock_registers::{
-    interfaces::{Readable, Writeable, ReadWriteable},
     register_bitfields, register_structs,
-    registers::{ReadOnly, ReadWrite},
+    registers::ReadWrite,
 };
+
 
 register_structs! {
     pub PwmRegisters {
         // Dead-time control registers (0x000~0x3FF)
-        (0x0000 => dbctrl: ReadWrite<u32, DBCTRL::Register>),
-        (0x0004 => dbdly: ReadWrite<u32, DBDLY::Register>),
+        (0x0000 => pub dbctrl: ReadWrite<u32, DBCTRL::Register>),
+        (0x0004 => pub dbdly: ReadWrite<u32, DBDLY::Register>),
         (0x0008 => _reserved_db: [u8; 0x3F8]),
         // PWM0 channel registers (0x400~0x7FF)
-        (0x0400 => ch0_tim_cnt: ReadWrite<u32, TIM_CNT::Register>),
-        (0x0404 => ch0_tim_ctrl: ReadWrite<u32, TIM_CTRL::Register>),
-        (0x0408 => ch0_state: ReadWrite<u32, STATE::Register>),
-        (0x040C => ch0_pwm_period: ReadWrite<u32, PWM_PERIOD::Register>),
-        (0x0410 => ch0_pwm_ctrl: ReadWrite<u32, PWM_CTRL::Register>),
-        (0x0414 => ch0_pwm_ccr: ReadWrite<u32, PWM_CCR::Register>),
+        (0x0400 => pub ch0_tim_cnt: ReadWrite<u32, TIM_CNT::Register>),
+        (0x0404 => pub ch0_tim_ctrl: ReadWrite<u32, TIM_CTRL::Register>),
+        (0x0408 => pub ch0_state: ReadWrite<u32, STATE::Register>),
+        (0x040C => pub ch0_pwm_period: ReadWrite<u32, PWM_PERIOD::Register>),
+        (0x0410 => pub ch0_pwm_ctrl: ReadWrite<u32, PWM_CTRL::Register>),
+        (0x0414 => pub ch0_pwm_ccr: ReadWrite<u32, PWM_CCR::Register>),
         (0x0418 => _reserved_ch0: [u8; 0x3E8]),
         // PWM1 channel registers (0x800~0xBFF)
-        (0x0800 => ch1_tim_cnt: ReadWrite<u32, TIM_CNT::Register>),
-        (0x0804 => ch1_tim_ctrl: ReadWrite<u32, TIM_CTRL::Register>),
-        (0x0808 => ch1_state: ReadWrite<u32, STATE::Register>),
-        (0x080C => ch1_pwm_period: ReadWrite<u32, PWM_PERIOD::Register>),
-        (0x0810 => ch1_pwm_ctrl: ReadWrite<u32, PWM_CTRL::Register>),
-        (0x0814 => ch1_pwm_ccr: ReadWrite<u32, PWM_CCR::Register>),
+        (0x0800 => pub ch1_tim_cnt: ReadWrite<u32, TIM_CNT::Register>),
+        (0x0804 => pub ch1_tim_ctrl: ReadWrite<u32, TIM_CTRL::Register>),
+        (0x0808 => pub ch1_state: ReadWrite<u32, STATE::Register>),
+        (0x080C => pub ch1_pwm_period: ReadWrite<u32, PWM_PERIOD::Register>),
+        (0x0810 => pub ch1_pwm_ctrl: ReadWrite<u32, PWM_CTRL::Register>),
+        (0x0814 => pub ch1_pwm_ccr: ReadWrite<u32, PWM_CCR::Register>),
         (0x0818 => @END),
     }
 }
 
-register_bitfields! {
-    u32,
+register_bitfields![u32,
     pub DBCTRL [
         OUT_MODE OFFSET(4) NUMBITS(2) [
             Bypass = 0b00,
@@ -89,7 +88,7 @@ register_bitfields! {
     pub PWM_CTRL [
         FIFO_EMPTY_ENABLE OFFSET(9) NUMBITS(1) [],
         DUTY_SEL OFFSET(8) NUMBITS(1) [
-            Register = 0,
+            Register_ = 0,
             FIFO = 1
         ],
         ICOV OFFSET(7) NUMBITS(1) [],
@@ -112,4 +111,4 @@ register_bitfields! {
     pub PWM_CCR [
         CCR OFFSET(0) NUMBITS(16) []
     ]
-}
+];

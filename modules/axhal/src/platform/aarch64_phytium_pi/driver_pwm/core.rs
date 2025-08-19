@@ -1,7 +1,8 @@
-use core::sync::atomic::{AtomicU32, Ordering};
-use cortex_m::asm;
-use super::{regs::{PwmRegisters, DBCTRL, DBDLY, TIM_CNT, TIM_CTRL, STATE, PWM_PERIOD, PWM_CTRL, PWM_CCR}, types::*};
-
+use super::{regs::{PwmRegisters, DBCTRL, DBDLY, TIM_CNT, TIM_CTRL, STATE, PWM_PERIOD, PWM_CTRL, PWM_CCR}};
+pub use super::types::*;
+use tock_registers::registers::ReadWrite;
+use tock_registers::interfaces::{ReadWriteable,Readable,Writeable};
+use aarch64_cpu::asm;
 impl PwmController {
     pub unsafe fn new(base_addr: usize) -> Self {
         Self {
@@ -17,7 +18,7 @@ impl PwmController {
         unsafe { &*(self.base as *const PwmRegisters) }
     }
 
-    fn get_channel_reg(&self, channel: usize) -> ChannelRegisters {
+    fn get_channel_reg(&self, channel: usize) -> ChannelRegisters<'_> {
         let regs = self.registers();
         match channel {
             0 => ChannelRegisters {
@@ -54,17 +55,17 @@ impl PwmController {
         if period_reg > 0xFFFF {
             return Err("Period value too large");
         }
-        let duty_cycles = (period_reg as f32 * config.duty_cycle) as u16;
+        let duty_cycles = (period_reg as f32 * config.duty_cycle) as u32;
         let regs = self.registers();
         if let Some(deadtime) = config.deadtime_ns {
-            let delay_cycles = (deadtime as f32 * SYSTEM_CLK as f32 / 1e9) as u16;
+            let delay_cycles = (deadtime as f32 * SYSTEM_CLK as f32 / 1e9) as u32;
             let delay_cycles = delay_cycles.min((1 << 10) - 1);
             regs.dbdly.write(DBDLY::DBRED.val(delay_cycles) + DBDLY::DBFED.val(delay_cycles));
             regs.dbctrl.modify(DBCTRL::OUT_MODE::FullDeadband + DBCTRL::IN_MODE::PWM0 + DBCTRL::POLSEL::AH);
         }
         let ch_reg = self.get_channel_reg(channel);
         ch_reg.tim_ctrl.modify(TIM_CTRL::DIV.val(div.into()) + TIM_CTRL::MODE.val(config.counting_mode) + TIM_CTRL::ENABLE::Disabled);
-        ch_reg.pwm_period.modify(PWM_PERIOD::CCR.val(period_reg as u16));
+        ch_reg.pwm_period.modify(PWM_PERIOD::CCR.val(period_reg));
         ch_reg.pwm_ctrl.modify(PWM_CTRL::MODE::Compare + PWM_CTRL::DUTY_SEL.val(config.use_fifo as u32) + PWM_CTRL::ICOV.val(config.initial_value) + PWM_CTRL::CMP.val(config.output_behavior) + PWM_CTRL::IE::SET);
         if config.use_fifo {
             for _ in 0..4 {
@@ -74,6 +75,8 @@ impl PwmController {
         } else {
             ch_reg.pwm_ccr.write(PWM_CCR::CCR.val(duty_cycles));
         }
+        
+        // Store the config (now possible because PwmConfig implements Copy)
         self.channels[channel].config = Some(config);
         Ok(())
     }
@@ -112,37 +115,55 @@ impl PwmController {
         if ch_reg.state.matches_all(STATE::FIFO_FULL::SET) {
             return Err("FIFO full");
         }
-        ch_reg.pwm_ccr.write(PWM_CCR::CCR.val(duty_value));
+        ch_reg.pwm_ccr.write(PWM_CCR::CCR.val(duty_value.into()));
         Ok(())
     }
 
     pub fn handle_interrupt(&mut self) {
         for channel in 0..CHANNELS_PER_CONTROLLER {
-            if let Err(e) = self.handle_channel_interrupt(channel) {
+            if let Err(_e) = self.handle_channel_interrupt(channel) {
                 // log::error!("PWM ch{} error: {}", channel, e);
             }
         }
     }
 
     fn handle_channel_interrupt(&mut self, channel: usize) -> Result<(), &'static str> {
-        let ch_reg = self.get_channel_reg(channel);
-        let state = ch_reg.state.get();
+        // Read state first to avoid borrowing conflicts
+        let state = {
+            let ch_reg = self.get_channel_reg(channel);
+            ch_reg.state.get()
+        };
+        
         if state & STATE::FIFO_EMPTY.mask != 0 {
-            if ch_reg.tim_cnt.read(TIM_CNT::CNT) == 0 {
-                if let Some(config) = &self.channels[channel].config {
-                    let period = ch_reg.pwm_period.read(PWM_PERIOD::CCR) + 1;
-                    let duty_cycles = (period as f32 * config.duty_cycle) as u16;
+            let (tim_cnt_val, period_val, duty_cycle_val) = {
+                let ch_reg = self.get_channel_reg(channel);
+                let tim_cnt = ch_reg.tim_cnt.read(TIM_CNT::CNT);
+                let period = ch_reg.pwm_period.read(PWM_PERIOD::CCR) + 1;
+                let duty_cycle = self.channels[channel].config.as_ref().map(|c| c.duty_cycle);
+                (tim_cnt, period, duty_cycle)
+            };
+            
+            if tim_cnt_val == 0 {
+                if let Some(duty_cycle) = duty_cycle_val {
+                    let duty_cycles = (period_val as f32 * duty_cycle) as u16;
                     self.push_fifo_data(channel, duty_cycles)?;
                 }
             }
+            
+            let ch_reg = self.get_channel_reg(channel);
             ch_reg.state.write(STATE::FIFO_EMPTY::SET);
         }
+        
         if state & STATE::OVFIF.mask != 0 {
+            let ch_reg = self.get_channel_reg(channel);
             ch_reg.state.write(STATE::OVFIF::SET);
         }
+        
         if state & STATE::CHIF.mask != 0 {
+            let ch_reg = self.get_channel_reg(channel);
             ch_reg.state.modify(STATE::CHIF::SET);
         }
+        
         Ok(())
     }
 }
