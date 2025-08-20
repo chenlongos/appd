@@ -1,7 +1,7 @@
 pub mod regs;
 pub mod core;
 
-pub use core::{PhytiumSpiDrv, SPI0_BASE, CLK_FREQ};
+pub use core::{PhytiumSpiDrv, SPI0_BASE};
 use kspin::SpinNoIrq;
 
 pub static SPI0: SpinNoIrq<PhytiumSpiDrv> = SpinNoIrq::new(PhytiumSpiDrv {
