@@ -9,6 +9,11 @@ pub static WDT0: SpinNoIrq<SbsaGwdt> = SpinNoIrq::new(SbsaGwdt {
     clk: CLK_FREQ,
 });
 
+pub static WDT1: SpinNoIrq<SbsaGwdt> = SpinNoIrq::new(SbsaGwdt {
+    base: WDT1_BASE.as_usize(),
+    clk: CLK_FREQ,
+});
+
 pub fn init_watchdog() {
     let mut wdt = WDT0.lock();
     wdt.init();

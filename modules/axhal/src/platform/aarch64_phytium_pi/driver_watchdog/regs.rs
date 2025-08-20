@@ -13,5 +13,5 @@ pub struct SbsaGpio {
 #[repr(u32)]
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
 pub enum SbsaGpioWcs {
-    WDT_EN = 1 << 0, // Watchdog 使能信号，高有效
+    WdtEn = 1 << 0, // Watchdog 使能信号，高有效
 }
