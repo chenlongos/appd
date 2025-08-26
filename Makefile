@@ -151,6 +151,7 @@ APP_NAME := $(shell basename $(APP))
 LD_SCRIPT := $(TARGET_DIR)/$(TARGET)/$(MODE)/linker_$(PLATFORM_NAME).lds
 OUT_ELF := $(OUT_DIR)/$(APP_NAME)_$(PLATFORM_NAME).elf
 OUT_BIN := $(OUT_DIR)/$(APP_NAME)_$(PLATFORM_NAME).bin
+OUT_ASM := $(OUT_DIR)/$(APP_NAME)_$(PLATFORM_NAME).asm
 
 all: build
 
@@ -162,12 +163,14 @@ ifeq ($(PLATFORM_NAME), aarch64-raspi4)
   include scripts/make/raspi4.mk
 else ifeq ($(PLATFORM_NAME), aarch64-bsta1000b)
   include scripts/make/bsta1000b-fada.mk
+else ifeq ($(PLATFORM_NAME), aarch64-phytium-pi)
+  include scripts/make/phytium-pi.mk
 endif
 
 build: $(OUT_DIR) $(OUT_BIN)
 
 disasm:
-	$(OBJDUMP) $(OUT_ELF) | less
+	$(OBJDUMP) $(OUT_ELF) > $(OUT_ASM)
 
 run: build justrun
 

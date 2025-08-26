@@ -122,7 +122,7 @@ pub fn platform_init() {
     cru::FResetInit(&mut cru::CRU.lock(), &cru::FResetLookupConfig(0).unwrap());
     pinctrl::FIOPadCfgInitialize(&mut pinctrl::PAD.lock(), &pinctrl::FIOPadLookupConfig(0).unwrap());
     clock::FClockInit(&mut clock::CLOCK.lock(), &clock::FClockLookupConfig(0).unwrap());
-    driver_pwm::init_pwm();
+    // driver_pwm::init_pwm();
     driver_gpio::init_gpio();
     driver_watchdog::init_watchdog();
     driver_spi::init_spi();
