@@ -142,11 +142,11 @@ unsafe extern "C" fn _start() -> ! {
 
 /// The earliest entry point for the secondary CPUs.
 #[cfg(feature = "smp")]
-#[naked]
+#[unsafe(naked)]
 #[no_mangle]
 #[link_section = ".text.boot"]
 unsafe extern "C" fn _start_secondary() -> ! {
-    core::arch::asm!("
+    core::arch::naked_asm!("
         mrs     x19, mpidr_el1
         and     x19, x19, #0xffffff     // get current CPU id
 
@@ -167,6 +167,5 @@ unsafe extern "C" fn _start_secondary() -> ! {
         enable_fp = sym enable_fp,
         phys_virt_offset = const axconfig::PHYS_VIRT_OFFSET,
         entry = sym crate::platform::rust_entry_secondary,
-        options(noreturn),
     )
 }

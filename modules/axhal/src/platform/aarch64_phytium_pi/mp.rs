@@ -6,10 +6,10 @@ extern "C" {
     fn _start_secondary();
 }
 
-#[naked]
+#[unsafe(naked)]
 #[link_section = ".text.boot"]
 unsafe extern "C" fn modify_stack_and_start() {
-    core::arch::asm!("
+    core::arch::naked_asm!("
         ldr     x21, ={secondary_boot_stack}    // the secondary CPU hasn't set the TTBR1
         mov     x8, {phys_virt_offset}          // minus the offset to get the phys addr of the boot stack
         sub     x21, x21, x8
@@ -18,15 +18,14 @@ unsafe extern "C" fn modify_stack_and_start() {
         b       _start_secondary",
         secondary_boot_stack = sym SECONDARY_STACK_TOP,
         phys_virt_offset = const axconfig::PHYS_VIRT_OFFSET,
-        options(noreturn)
     );
 }
 
 pub static CPU_SPIN_TABLE: [PhysAddr; 4] = [
-    PhysAddr::from(0xd8),
-    PhysAddr::from(0xe0),
-    PhysAddr::from(0xe8),
-    PhysAddr::from(0xf0),
+    PhysAddr::from_usize(0xd8),
+    PhysAddr::from_usize(0xe0),
+    PhysAddr::from_usize(0xe8),
+    PhysAddr::from_usize(0xf0),
 ];
 
 /// Starts the given secondary CPU with its boot stack.

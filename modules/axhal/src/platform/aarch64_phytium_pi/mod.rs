@@ -50,10 +50,10 @@ pub mod misc {
     pub use super::pinctrl::*;
     pub use super::clock::*;
     pub use super::i2c::*;
-    pub use super::driver_pwm::*;
+    pub use super::driver_pwm::{self as pwm_driver};
     pub use super::driver_gpio::*;
     pub use super::driver_watchdog::*;
-    pub use super::driver_spi::*;
+    pub use super::driver_spi::{self as spi_driver};
 }
 
 extern "C" {

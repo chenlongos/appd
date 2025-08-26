@@ -1,4 +1,3 @@
-#![no_std]
 
 use core::{ops::Deref, ptr::NonNull};
 
@@ -6,7 +5,6 @@ use alloc::vec::Vec;
 use dma_api::{DVec, Direction};
 use log::debug;
 pub use mac::{MacAddr6, MacStatus};
-pub use trait_ffi::impl_extern_trait;
 
 pub use err::DError;
 use ring::DEFAULT_RING_SIZE;
@@ -21,8 +19,7 @@ mod descriptor;
 mod phy;
 mod ring;
 
-pub use futures::{Stream, StreamExt};
-pub use ring::{RxPacket, RxRing, TxRing};
+pub use ring::{RxRing, TxRing};
 
 pub struct Request {
     buff: DVec<u8>,
