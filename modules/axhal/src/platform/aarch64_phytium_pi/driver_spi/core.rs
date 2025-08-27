@@ -40,7 +40,7 @@ impl PhytiumSpiDrv {
 
     pub fn send(&mut self, data: u8) {
         let spi = Self::new(self.base);
-        while (spi.sr.0 & (1 << 2)) != 0 {} // 等待 TX FIFO 非满
+        while (spi.sr.0 & (1 << 2)) == 0 {} // 等待 TX FIFO 非满
         spi.dr.0 = data as u32;
         debug!("SPI 发送数据: 0x{:02x}", data);
     }

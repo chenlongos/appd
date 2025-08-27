@@ -56,6 +56,8 @@ mmio-regions = [
 
   ["0x000_2804_a000", "0x1000"],    # pwm0
   ["0x000_2804_b000", "0x1000"],    # pwm1
+
+  ["0x000_2805_6000", "0x1000"],    # tacho2
 ]
 virtio-mmio-regions = []
 # UART Address
