@@ -1,16 +1,19 @@
 use log::*;
+use crate::mem::phys_to_virt;
 
 pub fn write_reg(addr: u32, value: u32) {
     trace!("Writing value {:#X} to address {:#X}", value, addr);
     unsafe {
-        *(addr as *mut u32) = value;
+        let virt_addr = phys_to_virt((addr as usize).into()).as_mut_ptr() as *mut u32;
+        *virt_addr = value;
     }
 }
 
 pub fn read_reg(addr: u32) -> u32 {
     let value: u32;
     unsafe {
-        value = *(addr as *const u32);
+        let virt_addr = phys_to_virt((addr as usize).into()).as_ptr() as *const u32;
+        value = *virt_addr;
     }
     trace!("Read value {:#X} from address {:#X}", value, addr);
     value

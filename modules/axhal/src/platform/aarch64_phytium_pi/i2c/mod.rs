@@ -88,3 +88,15 @@ pub fn run_iicoled() {
         ret = oled_display_on();
     }
 }
+
+pub fn init_i2c() {
+    unsafe {
+        // 初始化 IO Pad 配置
+        fiopad_cfg_initialize(&mut IOPAD_CTRL, &fiopad_lookup_config(0).unwrap());
+        debug!("I2C IO Pad 配置初始化完成");
+        
+        // 这里可以根据需要进行基本的 I2C 控制器初始化
+        // 具体的 I2C 实例初始化通常在使用时调用 fi2c_mio_master_init
+        debug!("I2C 驱动初始化完成");
+    }
+}

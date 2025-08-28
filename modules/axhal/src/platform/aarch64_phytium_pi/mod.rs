@@ -126,6 +126,7 @@ pub fn platform_init() {
     driver_gpio::init_gpio();
     driver_watchdog::init_watchdog();
     driver_spi::init_spi();
+    i2c::init_i2c();
 }
 
 /// Initializes the platform devices for secondary CPUs.
