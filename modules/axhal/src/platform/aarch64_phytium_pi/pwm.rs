@@ -2,6 +2,9 @@
 
 use core::ptr::NonNull;
 
+// 添加全局静态PWM对象声明
+static mut GLOBAL_PWM: Option<PwmCtrl> = None;
+
 use tock_registers::{
     interfaces::{ReadWriteable, Readable, Writeable},
     register_bitfields, register_structs,
@@ -99,6 +102,28 @@ impl PwmCtrl {
                 Ok(())
             }
             _ => Err("duty must range between 1-100"),
+        }
+    }
+    /// 初始化全局PWM实例
+    pub fn init_global() {
+        // 将基地址转换为NonNull<u8>
+        let base_addr = 0x2804a000 as *mut u8;
+        let pwm_va = unsafe { NonNull::new_unchecked(base_addr) };
+        
+        // 创建PWM实例并初始化
+        let mut pwm = PwmCtrl::new(pwm_va);
+        pwm.init();
+        
+        // 存储到全局静态变量
+        unsafe {
+            GLOBAL_PWM = Some(pwm);
+        }
+    }
+
+    /// 获取全局PWM实例
+    pub fn global() -> Option<&'static mut PwmCtrl> {
+        unsafe {
+            GLOBAL_PWM.as_mut()
         }
     }
 }

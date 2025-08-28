@@ -18,7 +18,7 @@ pub mod fxmac;
 pub mod driver_gpio;
 pub mod driver_watchdog;
 pub mod driver_spi;
-pub mod driver_pwm; // TODO: 复杂的 tock_registers 宏冲突问题需要深入调查
+// pub mod driver_pwm; // TODO: 复杂的 tock_registers 宏冲突问题需要深入调查
 
 #[cfg(feature = "irq")]
 pub mod irq {
@@ -50,7 +50,7 @@ pub mod misc {
     pub use super::pinctrl::*;
     pub use super::clock::*;
     pub use super::i2c::*;
-    pub use super::driver_pwm::*;
+    // pub use super::driver_pwm::*;
     pub use super::driver_gpio::*;
     pub use super::driver_watchdog::*;
     pub use super::driver_spi::*;
@@ -122,7 +122,7 @@ pub fn platform_init() {
     cru::FResetInit(&mut cru::CRU.lock(), &cru::FResetLookupConfig(0).unwrap());
     pinctrl::FIOPadCfgInitialize(&mut pinctrl::PAD.lock(), &pinctrl::FIOPadLookupConfig(0).unwrap());
     clock::FClockInit(&mut clock::CLOCK.lock(), &clock::FClockLookupConfig(0).unwrap());
-    // driver_pwm::init_pwm();
+    pwm::PwmCtrl::init_global();
     driver_gpio::init_gpio();
     driver_watchdog::init_watchdog();
     driver_spi::init_spi();
