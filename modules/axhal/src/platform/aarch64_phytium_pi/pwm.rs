@@ -1,9 +1,11 @@
 // tacho timer of phytium pi
 
 use core::ptr::NonNull;
+use crate::mem::{phys_to_virt, PhysAddr};
 
 // 添加全局静态PWM对象声明
 static mut GLOBAL_PWM: Option<PwmCtrl> = None;
+
 
 use tock_registers::{
     interfaces::{ReadWriteable, Readable, Writeable},
@@ -107,9 +109,8 @@ impl PwmCtrl {
     /// 初始化全局PWM实例
     pub fn init_global() {
         // 将基地址转换为NonNull<u8>
-        let base_addr = 0x2804a000 as *mut u8;
-        let pwm_va = unsafe { NonNull::new_unchecked(base_addr) };
-        
+        let base_addr = 0x2804a000;
+        let pwm_va = unsafe { NonNull::new_unchecked(phys_to_virt(PhysAddr::from(base_addr)).as_mut_ptr()) };
         // 创建PWM实例并初始化
         let mut pwm = PwmCtrl::new(pwm_va);
         pwm.init();
