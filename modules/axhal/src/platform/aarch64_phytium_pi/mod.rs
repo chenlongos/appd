@@ -6,19 +6,21 @@ pub mod uart;
 #[cfg(feature = "smp")]
 pub mod mp;
 
-pub mod pwm;
-pub mod tacho;
-pub mod cru; 
-pub mod pinctrl;
 pub mod clock;
+pub mod cru;
+pub mod fxmac;
 pub mod i2c;
 pub mod igb;
-pub mod fxmac;
+pub mod pinctrl;
+pub mod pwm;
+pub mod tacho;
 
 pub mod driver_gpio;
-pub mod driver_watchdog;
 pub mod driver_spi;
+pub mod driver_watchdog;
 // pub mod driver_pwm; // TODO: 复杂的 tock_registers 宏冲突问题需要深入调查
+
+pub mod iopad;
 
 #[cfg(feature = "irq")]
 pub mod irq {
@@ -43,17 +45,17 @@ pub mod misc {
     pub use super::pwm::*;
     pub use crate::mem::phys_to_virt;
 
-    pub use super::tacho::*;
-    pub use super::mio::*;
-    pub use super::uart::*;
-    pub use super::cru::*;
-    pub use super::pinctrl::*;
     pub use super::clock::*;
+    pub use super::cru::*;
     pub use super::i2c::*;
+    pub use super::mio::*;
+    pub use super::pinctrl::*;
+    pub use super::tacho::*;
+    pub use super::uart::*;
     // pub use super::driver_pwm::*;
     pub use super::driver_gpio::*;
-    pub use super::driver_watchdog::*;
     pub use super::driver_spi::*;
+    pub use super::driver_watchdog::*;
 }
 
 extern "C" {
@@ -120,8 +122,14 @@ pub fn platform_init() {
     super::aarch64_common::generic_timer::init_percpu();
     super::aarch64_common::pl011::init();
     cru::FResetInit(&mut cru::CRU.lock(), &cru::FResetLookupConfig(0).unwrap());
-    pinctrl::FIOPadCfgInitialize(&mut pinctrl::PAD.lock(), &pinctrl::FIOPadLookupConfig(0).unwrap());
-    clock::FClockInit(&mut clock::CLOCK.lock(), &clock::FClockLookupConfig(0).unwrap());
+    pinctrl::FIOPadCfgInitialize(
+        &mut pinctrl::PAD.lock(),
+        &pinctrl::FIOPadLookupConfig(0).unwrap(),
+    );
+    clock::FClockInit(
+        &mut clock::CLOCK.lock(),
+        &clock::FClockLookupConfig(0).unwrap(),
+    );
     pwm::PwmCtrl::init_global();
     driver_gpio::init_gpio();
     driver_watchdog::init_watchdog();
