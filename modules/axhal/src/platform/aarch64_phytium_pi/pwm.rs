@@ -105,6 +105,15 @@ impl PwmCtrl {
             _ => Err("duty must range between 1-100"),
         }
     }
+
+    // 获取当前占空比
+    pub fn get_duty(&self) -> u32 {
+        let t = self.regs().period.get();
+        let nd = self.regs().ccr.get();
+        // 计算占空比
+        100 - (nd * 100) / t
+    }
+    
     /// 初始化全局PWM实例
     pub fn init_global() {
         // 将基地址转换为NonNull<u8>

@@ -22,6 +22,8 @@ kernel-aspace-base = "0xffff_0000_0000_0000"
 kernel-aspace-size = "0x0000_ffff_ffff_f000"
 # MMIO regions with format (`base_paddr`, `size`).
 mmio-regions = [
+  ["0x2800_0000", "0x1000"],      # mmc0
+  
   ["0x2800_C000", "0x1000"],      # UART 0
   ["0x2800_D000", "0x1000"],      # UART 1
   ["0x2800_E000", "0x1000"],      # UART 2
