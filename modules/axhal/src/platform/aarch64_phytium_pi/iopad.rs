@@ -1,5 +1,4 @@
-#![no_std]
-
+// iomux of phytium pi
 use core::ptr::NonNull;
 
 pub struct IoPadCtrl(NonNull<u32>);
@@ -27,7 +26,7 @@ impl IoPadCtrl {
         }
     }
 }
-
+#[deriv]
 pub enum PollMode {
     None = 0b00,
     PollDown = 0b01 << 8,
@@ -68,13 +67,10 @@ impl IoReg0 {
 
 impl IoReg1 {
     fn fmt_value(&self, ps_336: u32, ps_100: u32) -> Result<u32, &'static str> {
-        match ps_336 {
-            1..=8 => {}
-            _ => return Err("ps_336 invalid"),
-        }
-        match ps_100 {
-            1..=8 => {}
-            _ => return Err("ps_100 invalid"),
+        let ps_336 = ps_336 - 1;
+        let ps_100 = ps_100 - 1;
+        if ps_336 & !0b111 != 0 || ps_100 & !0b111 != 0 {
+            return Err("param invalid");
         }
 
         return Ok(1 | (ps_100 << 1) | (ps_336 << 4));
