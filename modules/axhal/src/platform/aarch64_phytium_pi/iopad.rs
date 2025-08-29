@@ -26,7 +26,7 @@ impl IoPadCtrl {
         }
     }
 }
-#[deriv]
+
 pub enum PollMode {
     None = 0b00,
     PollDown = 0b01 << 8,
