@@ -321,6 +321,9 @@ class ArceOSDeployer:
 
     def deploy(self, binary_path, target_path):
         """Complete deployment workflow"""
+        # Store target_path as instance attribute so other methods can access it
+        self.target_path = target_path
+        
         try:
             # Step 1: Wait for network connectivity (if not skipped)
             if not self.skip_ping:
