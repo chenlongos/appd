@@ -62,10 +62,11 @@ pub fn fmio_func_deinit(instance: &mut FMioCtrl) -> bool {
 
 /// 获取功能设置的基地址
 pub fn fmio_func_get_address(instance: &FMioCtrl, mio_type: u32) -> usize {
+    debug!("fmio_func_get_address instance: {:?}", instance);
     assert!(instance.is_ready == 0x11111111u32);
 
     if fmio_get_func(instance.config.mio_base_addr) != mio_type {
-        trace!(
+        warn!(
             "Mio instance_id: {}, mio_type error, initialize the type first.",
             instance.config.instance_id
         );
@@ -80,7 +81,7 @@ pub fn fmio_func_get_irq_num(instance: &FMioCtrl, mio_type: u32) -> u32 {
     assert!(instance.is_ready == 0x11111111u32);
 
     if fmio_get_func(instance.config.mio_base_addr) != mio_type {
-        trace!(
+        warn!(
             "Mio instance_id: {}, mio_type error, initialize the type first.",
             instance.config.instance_id
         );
@@ -114,7 +115,7 @@ pub fn fiopad_set_func(instance_p: &FIOPadCtrl, pin_reg_off: u32, func: u8) -> b
     );
 
     if reg_val != test_val {
-        trace!(
+        warn!(
             "ERROR: FIOPad write failed, pin is {:x}, 0x{:x} != 0x{:x}",
             pin_reg_off,
             reg_val,

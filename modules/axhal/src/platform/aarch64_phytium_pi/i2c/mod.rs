@@ -11,6 +11,7 @@ pub mod driver_iic;
 pub mod driver_mio;
 pub mod example;
 
+use crate::time::{busy_wait, Duration};
 use self::driver_iic::io::*;
 
 use self::example::*;
@@ -44,13 +45,13 @@ const OLED_INIT_CMDS: [u8; 24] = [
 
 pub unsafe fn oled_init() -> bool {
     let mut ret: bool;
-    (0..1000000).for_each(|_i| {
-        // 上电延时
-    });
+    busy_wait(Duration::from_millis(100));
+
     let cmd = OLED_INIT_CMDS.clone();
     for i in 0..24 {
         ret = fi2c_master_write(&mut [cmd[i]], 1, 0);
         if ret != true {
+            warn!("WARN oled_init send cmd [{}]: 0x{:02x}", i, cmd[i]);
             return ret;
         }
     }
@@ -66,7 +67,7 @@ pub unsafe fn oled_display_on() -> bool {
         for i in 0..128 {
             ret = fi2c_master_write(&mut [display_data[i]], 1, 0);
             if ret != true {
-                trace!("failed");
+                warn!("WARN oled_display_on send data [{}]: 0x{:02x}", i, display_data[i]);
                 return ret;
             }
         }
@@ -80,23 +81,33 @@ pub fn run_iicoled() {
         let address: u32 = 0x3c;
         let speed_rate: u32 = 100000; /*kb/s*/
         fiopad_cfg_initialize(&mut IOPAD_CTRL, &fiopad_lookup_config(0).unwrap());
+        debug!("fiopad_cfg_initialize");
         ret = fi2c_mio_master_init(address, speed_rate);
+        debug!("fi2c_mio_master_init");
         if ret != true {
-            trace!("FI2cMioMasterInit mio_id {:?} is error!", 1);
+            warn!("FI2cMioMasterInit mio_id {:?} is error!", 1);
         }
-        ret = oled_init();
-        ret = oled_display_on();
+        oled_init();
+        debug!("oled_init");
+        oled_display_on();
+        debug!("oled_display_on");
     }
 }
 
 pub fn init_i2c() {
     unsafe {
         // 初始化 IO Pad 配置
-        fiopad_cfg_initialize(&mut IOPAD_CTRL, &fiopad_lookup_config(0).unwrap());
+        // fiopad_cfg_initialize(&mut IOPAD_CTRL, &fiopad_lookup_config(0).unwrap());
         debug!("I2C IO Pad 配置初始化完成");
         
-        // 这里可以根据需要进行基本的 I2C 控制器初始化
-        // 具体的 I2C 实例初始化通常在使用时调用 fi2c_mio_master_init
+        // 基本的 I2C 控制器初始化
+        // let mut ret: bool = true;
+        // let address: u32 = 0x3c;
+        // let speed_rate: u32 = 100000; /*kb/s*/
+        // ret = fi2c_mio_master_init(address, speed_rate);
+        // if ret != true {
+        //     warn!("I2C 驱动初始化失败");
+        // }
         debug!("I2C 驱动初始化完成");
     }
 }

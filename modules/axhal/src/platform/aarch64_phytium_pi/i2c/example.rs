@@ -205,19 +205,16 @@ pub unsafe fn fi2c_mio_master_init(address: u32, speed_rate: u32) -> bool {
     MASTER_MIO_CTRL.config = fmio_lookup_config(1).unwrap();
     status = fmio_func_init(&mut MASTER_MIO_CTRL, 0b00);
     if status != true {
-        trace!("MIO initialize error.");
+        warn!("MIO initialize error.");
         return false;
     }
     fiopad_set_func(&IOPAD_CTRL, 0x00D0u32, 5); /* scl */
     fiopad_set_func(&IOPAD_CTRL, 0x00D4u32, 5); /* sda */
 
-    unsafe {
-        core::ptr::write_bytes(&mut MASTER_I2C_INSTANCE as *mut FI2c, 0, size_of::<FI2c>());
-    }
     // 查找默认配置
     config_p = fi2c_lookup_config(1).unwrap(); // 获取 MIO 配置的默认引用
     if !Some(config_p).is_some() {
-        trace!("Config of mio instance {} not found.", 1);
+        warn!("Config of mio instance {} not found.", 1);
         return false;
     }
 
@@ -239,7 +236,7 @@ pub unsafe fn fi2c_mio_master_init(address: u32, speed_rate: u32) -> bool {
     MASTER_I2C_INSTANCE.master_evt_handlers[2 as usize] = None;
 
     if status != true {
-        trace!("Init mio master failed, ret: {:?}", status);
+        warn!("Init mio master failed, ret: {:?}", status);
         return status;
     }
 
@@ -256,18 +253,18 @@ pub unsafe fn fi2c_master_write(buf_p: &mut [u8], buf_len: u32, inchip_offset: u
 
     if buf_len < 256 && inchip_offset < 256 {
         if (256 - inchip_offset) < buf_len {
-            trace!("Write to eeprom failed, out of eeprom size.");
+            warn!("Write to eeprom failed, out of eeprom size.");
             return false;
         }
     } else {
-        trace!("Write to eeprom failed, out of eeprom size.",);
+        warn!("Write to eeprom failed, out of eeprom size.",);
         return false;
     }
 
     status = fi2c_master_write_poll(&mut MASTER_I2C_INSTANCE, inchip_offset, 1, buf_p, buf_len);
     trace!("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     if status != true {
-        trace!("Write to eeprom failed");
+        warn!("Write to eeprom failed");
     }
 
     status

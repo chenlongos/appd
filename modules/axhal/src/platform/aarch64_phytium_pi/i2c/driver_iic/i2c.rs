@@ -21,7 +21,7 @@ pub struct FI2cConfig {
 pub type FI2cEvtHandler = fn(instance_p: *mut FI2c, param: *mut core::ffi::c_void);
 
 /// I2C发送数据帧
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Default)]
 pub struct FI2cFrameTX {
     pub data_buff: *const core::ffi::c_void, // 数据缓冲区
     pub tx_total_num: u32,                   // 发送数据总量
@@ -29,8 +29,8 @@ pub struct FI2cFrameTX {
     pub flag: u32,                           // 标志位（CMD、STOP、RESTART）
 }
 
-impl Default for FI2cFrameTX {
-    fn default() -> Self {
+impl FI2cFrameTX {
+    pub const fn const_default() -> Self {
         Self {
             data_buff: core::ptr::null_mut(), // 设置默认值为 null 指针
             tx_total_num: 0,
@@ -41,15 +41,15 @@ impl Default for FI2cFrameTX {
 }
 
 /// I2C接收数据帧
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Default)]
 pub struct FI2cFrameRX {
     pub data_buff: *mut core::ffi::c_void, // 数据缓冲区
     pub rx_total_num: u32,                 // 接收数据总量
     pub rx_cnt: u32,                       // 已接收数据量
 }
 
-impl Default for FI2cFrameRX {
-    fn default() -> Self {
+impl FI2cFrameRX {
+    pub const fn const_default() -> Self {
         Self {
             data_buff: core::ptr::null_mut(), // 设置默认值为 null 指针
             rx_total_num: 0,
@@ -71,34 +71,32 @@ pub struct FI2c {
     pub slave_evt_handlers: [Option<FI2cEvtHandler>; 6],  // 从设备中断处理程序
 }
 
-pub static mut MASTER_I2C_INSTANCE: FI2c = FI2c {
-    config: FI2cConfig {
-        instance_id: 0,
-        base_addr: 0,
-        irq_num: 0,
-        irq_priority: 0,
-        ref_clk_hz: 0,
-        work_mode: 0,
-        slave_addr: 0,
-        use_7bit_addr: false,
-        speed_rate: 0,
-    },
-    is_ready: 0,
-    status: 0,
-    txframe: FI2cFrameTX {
-        data_buff: core::ptr::null_mut(),
-        tx_total_num: 0,
-        tx_cnt: 0,
-        flag: 0,
-    },
-    rxframe: FI2cFrameRX {
-        data_buff: core::ptr::null_mut(),
-        rx_total_num: 0,
-        rx_cnt: 0,
-    },
-    master_evt_handlers: [None; 3],
-    slave_evt_handlers: [None; 6],
-};
+impl FI2c {
+    pub const fn const_default() -> Self {
+        FI2c {
+            config: FI2cConfig {
+                instance_id: 0,
+                base_addr: 0,
+                irq_num: 0,        // 设备中断ID
+                irq_priority: 0,   // 设备中断优先级
+                ref_clk_hz: 0,     // 输入参考时钟频率（Hz）
+                work_mode: 0,      // 设备工作模式：从机或主机
+                slave_addr: 0,     // 主模式从机地址（读/写）或从机模式本地地址
+                use_7bit_addr: false, // 从机地址是否使用7位或10位
+                speed_rate: 0,     // I2C速度
+            },
+            is_ready: 0,                                    // 设备是否已初始化并准备好
+            status: 0,                                      // 设备状态
+            txframe: FI2cFrameTX::const_default(),          // 发送数据帧
+            rxframe: FI2cFrameRX::const_default(),          // 接收数据帧
+            master_evt_handlers: [None; 3],                 // 主设备中断处理程序
+            slave_evt_handlers: [None; 6],                  // 从设备中断处理程序
+        }
+    }
+}
+
+// 静态初始化时使用
+pub static mut MASTER_I2C_INSTANCE: FI2c = FI2c::const_default();
 
 pub fn fi2c_cfg_initialize(instance_p: &mut FI2c, input_config_p: &FI2cConfig) -> bool {
     assert!(Some(instance_p.clone()).is_some() && Some(input_config_p).is_some());
@@ -107,7 +105,7 @@ pub fn fi2c_cfg_initialize(instance_p: &mut FI2c, input_config_p: &FI2cConfig) -
 
     // 如果设备已启动，禁止初始化并返回已启动状态，允许用户取消初始化设备并重新初始化，但防止用户无意中初始化
     if instance_p.is_ready == 0x11111111u32 {
-        trace!("Device is already initialized!!!");
+        warn!("Device is already initialized!!!");
         return false;
     }
 
@@ -167,6 +165,7 @@ pub fn fi2c_cfg_initialize(instance_p: &mut FI2c, input_config_p: &FI2cConfig) -
     if ret == true {
         instance_p.is_ready = 0x11111111u32;
     }
+    debug!("fi2c_cfg_initialize base_addr:{:#}, work_mode:{}, ret:{}", instance_p.config.base_addr, instance_p.config.work_mode, ret);
 
     ret
 }
