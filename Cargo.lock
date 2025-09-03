@@ -409,6 +409,7 @@ dependencies = [
  "memory_addr",
  "page_table_entry",
  "page_table_multiarch",
+ "pcie",
  "percpu",
  "raw-cpuid 11.1.0",
  "riscv",
@@ -550,6 +551,17 @@ dependencies = [
  "rand",
  "scheduler",
  "timer_list",
+]
+
+[[package]]
+name = "bare-test-macros"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e585a01076fee271c5aabcf36212acb349fb3e638561d842fffa8ca013f4fdd8"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.105",
 ]
 
 [[package]]
@@ -1201,6 +1213,29 @@ name = "paste"
 version = "1.0.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "57c0d7b74b563b49d38dae00a0c37d4d6de9b432382b2892f0574ddcae73fd0a"
+
+[[package]]
+name = "pci_types"
+version = "0.10.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c4325c6aa3cca3373503b1527e75756f9fbfe5fd76be4b4c8a143ee47430b8e0"
+dependencies = [
+ "bit_field",
+ "bitflags 2.6.0",
+]
+
+[[package]]
+name = "pcie"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7ed8fdcb99926e6316dc3d3e63194ab6d9b8dff64de2b6258cf300468b8bb50c"
+dependencies = [
+ "bare-test-macros",
+ "bit_field",
+ "bitflags 2.6.0",
+ "log",
+ "pci_types",
+]
 
 [[package]]
 name = "percpu"

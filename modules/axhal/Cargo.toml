@@ -53,6 +53,8 @@ trait-ffi = "0.1"
 # for fxmac
 crate_interface = "0.1.4"
 
+pcie = "0.3.0"
+
 [target.'cfg(target_arch = "x86_64")'.dependencies]
 x86 = "0.52"
 x86_64 = "0.15"

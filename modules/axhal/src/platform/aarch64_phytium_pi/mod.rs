@@ -15,6 +15,8 @@ pub mod pinctrl;
 pub mod pwm;
 pub mod tacho;
 
+pub mod pcie;
+
 pub mod driver_gpio;
 pub mod driver_spi;
 pub mod driver_watchdog;
@@ -135,6 +137,7 @@ pub fn platform_init() {
     driver_watchdog::init_watchdog();
     driver_spi::init_spi();
     i2c::init_i2c();
+    pcie::init_pcie();
 }
 
 /// Initializes the platform devices for secondary CPUs.
