@@ -126,10 +126,7 @@ pub fn platform_init() {
         &mut pinctrl::PAD.lock(),
         &pinctrl::FIOPadLookupConfig(0).unwrap(),
     );
-    clock::FClockInit(
-        &mut clock::CLOCK.lock(),
-        &clock::FClockLookupConfig(0).unwrap(),
-    );
+    clock::Clock::init_global();
     pwm::PwmCtrl::init_global();
     driver_gpio::init_gpio();
     driver_watchdog::init_watchdog();
