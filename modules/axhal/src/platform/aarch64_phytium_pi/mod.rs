@@ -48,6 +48,7 @@ pub mod misc {
     pub use crate::mem::phys_to_virt;
 
     pub use super::clock::*;
+    pub use super::fxmac::*;
     pub use super::cru::*;
     pub use super::i2c::*;
     pub use super::mio::*;
@@ -138,6 +139,7 @@ pub fn platform_init() {
     driver_spi::init_spi();
     i2c::init_i2c();
     pcie::init_pcie();
+    fxmac::test_fxmac_simple();
 }
 
 /// Initializes the platform devices for secondary CPUs.
