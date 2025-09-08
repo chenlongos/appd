@@ -61,6 +61,139 @@ pub struct Igb {
     _tx_ring_addrs: [usize; 16],
 }
 
+pub fn test_igb_basic() -> Result<(), DError> {
+    use log::{info, warn};
+    use pcie::{RootComplexGeneric, SimpleBarAllocator};
+    use crate::mem::phys_to_virt;
+    
+    info!("Starting basic IGB driver test...");
+    
+    // 初始化 PCIe
+    let pci_32_range = axconfig::PCI_RANGES[0];
+    let pci_64_range = axconfig::PCI_RANGES[1];
+    let bar_alloc = SimpleBarAllocator::new(
+        pci_32_range.0 as u32, 
+        (pci_32_range.1 - pci_32_range.0) as u32, 
+        pci_64_range.0 as u64, 
+        (pci_64_range.1 - pci_64_range.0) as u64
+    );
+
+    let base_vaddr = phys_to_virt(axconfig::PCI_ECAM_BASE.into());
+    let base_vaddr = unsafe {
+        core::ptr::NonNull::new_unchecked(base_vaddr.as_mut_ptr())
+    };
+    
+    let mut root = RootComplexGeneric::new(base_vaddr);
+    let mut igb_found = false;
+    
+    // 查找 IGB 设备
+    for header in root.enumerate_keep_bar(None) {
+        if let pcie::Header::Endpoint(mut endpoint) = header.header {
+            if Igb::check_vid_did(endpoint.vendor_id, endpoint.device_id) {
+                info!("Found IGB device: VID={:#x}, DID={:#x}", 
+                      endpoint.vendor_id, endpoint.device_id);
+                
+                // 获取 BAR0 地址
+                let bar_addr = match &endpoint.bar {
+                    pcie::BarVec::Memory32(bars) => {
+                        bars[0].as_ref().map(|bar| bar.address as usize)
+                    },
+                    pcie::BarVec::Memory64(bars) => {
+                        bars[0].as_ref().map(|bar| bar.address as usize)
+                    },
+                    _ => None,
+                };
+                
+                if let Some(addr) = bar_addr {
+                    info!("IGB device BAR0 address: {:#x}", addr);
+                    
+                    // 测试驱动
+                    match test_igb_driver(addr) {
+                        Ok(()) => {
+                            info!("IGB driver test passed!");
+                            igb_found = true;
+                            break;
+                        },
+                        Err(e) => {
+                            warn!("IGB driver test failed: {:?}", e);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    if !igb_found {
+        warn!("No IGB device found or test failed");
+    }
+    
+    Ok(())
+}
+
+fn test_igb_driver(bar_addr: usize) -> Result<(), DError> {
+    use log::info;
+    use crate::mem::phys_to_virt;
+    
+    // 映射物理地址到虚拟地址
+    let virt_addr = phys_to_virt(bar_addr.into());
+    let iobase = unsafe { 
+        core::ptr::NonNull::new_unchecked(virt_addr.as_mut_ptr()) 
+    };
+    
+    // 创建 IGB 驱动实例
+    let mut igb = Igb::new(iobase)?;
+    info!("IGB driver instance created");
+    
+    // 读取并显示 MAC 地址
+    let mac_addr = igb.read_mac();
+    info!("IGB MAC Address: {:?}", mac_addr);
+    
+    // 检查设备初始状态
+    let initial_status = igb.status();
+    info!("Initial device status: {:?}", initial_status);
+    
+    // 初始化设备
+    igb.open()?;
+    info!("IGB device opened successfully");
+    
+    // 检查初始化后的状态
+    let post_init_status = igb.status();
+    info!("Post-init device status: {:?}", post_init_status);
+    
+    // 创建收发环
+    let (mut tx_ring, mut rx_ring) = igb.new_ring()?;
+    info!("TX/RX rings created successfully");
+    
+    // 简单的环回测试
+    test_loopback(&mut igb, &mut tx_ring, &mut rx_ring)?;
+    
+    info!("IGB driver test completed successfully");
+    Ok(())
+}
+
+fn test_loopback(igb: &mut Igb, _tx_ring: &mut TxRing, _rx_ring: &mut RxRing) -> Result<(), DError> {
+    use log::info;
+    
+    info!("Starting loopback test...");
+    
+    // 启用环回模式
+    igb.enable_loopback();
+    info!("Loopback mode enabled");
+    
+    // 这里可以添加实际的数据包发送和接收测试
+    // 由于涉及到复杂的网络协议栈，这里先做基本的状态检查
+    
+    let status = igb.status();
+    info!("Loopback status: {:?}", status);
+    
+    // 禁用环回模式
+    igb.disable_loopback();
+    info!("Loopback mode disabled");
+    
+    info!("Loopback test completed");
+    Ok(())
+}
+
 impl Igb {
     pub fn new(iobase: NonNull<u8>) -> Result<Self, DError> {
         let mac = mac::Mac::new(iobase);

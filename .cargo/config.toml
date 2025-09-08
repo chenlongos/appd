@@ -1,0 +1,41 @@
+[build]
+# 默认使用 aarch64-unknown-none-softfloat target 用于 Phytium Pi
+target = "aarch64-unknown-none-softfloat"
+
+[target.aarch64-unknown-none-softfloat]
+linker = "rust-lld"
+rustflags = [
+    "-C", "link-arg=-flavor=gnu"
+]
+
+[target.aarch64-unknown-none]
+linker = "rust-lld"
+rustflags = [
+    "-C", "link-arg=-flavor=gnu"
+]
+
+[target.x86_64-unknown-none]
+linker = "rust-lld"
+rustflags = [
+    "-C", "link-arg=-flavor=gnu"
+]
+
+[target.riscv64gc-unknown-none-elf]
+linker = "rust-lld"
+rustflags = [
+    "-C", "link-arg=-flavor=gnu"
+]
+
+# 环境变量配置，匹配 ArceOS 构建系统
+[env]
+AX_ARCH = { value = "aarch64", force = false }
+AX_PLATFORM = { value = "aarch64-phytium-pi", force = false }
+AX_TARGET = { value = "aarch64-unknown-none-softfloat", force = false }
+AX_MODE = { value = "release", force = false }
+AX_LOG = { value = "warn", force = false }
+AX_SMP = { value = "1", force = false }
+
+# 通用配置
+[unstable]
+build-std = ["core", "alloc", "compiler_builtins"]
+build-std-features = ["compiler-builtins-mem"]
