@@ -138,8 +138,8 @@ pub fn platform_init() {
     driver_watchdog::init_watchdog();
     driver_spi::init_spi();
     i2c::init_i2c();
-    // pcie::init_pcie();
-    // fxmac::test_fxmac_simple();
+    pcie::init_pcie();
+    fxmac::test_fxmac_simple();
     
     // 测试 IGB 驱动（如果存在 IGB 设备）
     if let Err(e) = igb::test_igb_basic() {

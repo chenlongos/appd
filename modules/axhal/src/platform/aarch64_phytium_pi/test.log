@@ -1,0 +1,308 @@
+aaaaaa
+       d8888                            .d88888b.   .d8888b.
+      d88888                           d88P" "Y88b d88P  Y88b
+     d88P888                           888     888 Y88b.
+    d88P 888 888d888  .d8888b  .d88b.  888     888  "Y888b.
+   d88P  888 888P"   d88P"    d8P  Y8b 888     888     "Y88b.
+  d88P   888 888     888      88888888 888     888       "888
+ d8888888888 888     Y88b.    Y8b.     Y88b. .d88P Y88b  d88P
+d88P     888 888      "Y8888P  "Y8888   "Y88888P"   "Y8888P"
+
+arch = aarch64
+platform = aarch64-phytium-pi
+target = aarch64-unknown-none-softfloat
+smp = 1
+build_mode = release
+log_level = info
+
+[  5.015395 0 axruntime:130] Logging is enabled.
+[  5.021124 0 axruntime:131] Primary CPU 512 started, dtb = 0x1.
+[  5.028241 0 axruntime:133] Found physcial memory regions:
+[  5.034925 0 axruntime:135]   [PA:0x90100000, PA:0x90118000) .text (READ | EXECUTE | RESERVED)
+[  5.044733 0 axruntime:135]   [PA:0x90118000, PA:0x90121000) .rodata (READ | RESERVED)
+[  5.053846 0 axruntime:135]   [PA:0x90121000, PA:0x90125000) .data .tdata .tbss .percpu (READ | WRITE | RESERVED)
+[  5.065304 0 axruntime:135]   [PA:0x90125000, PA:0x90165000) boot stack (READ | WRITE | RESERVED)
+[  5.075373 0 axruntime:135]   [PA:0x90165000, PA:0x90189000) .bss (READ | WRITE | RESERVED)
+[  5.084921 0 axruntime:135]   [PA:0x0, PA:0x1000) spintable (READ | WRITE | RESERVED)
+[  5.093948 0 axruntime:135]   [PA:0x90189000, PA:0x100000000) free memory (READ | WRITE | FREE)
+[  5.103843 0 axruntime:135]   [PA:0x28000000, PA:0x28001000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.114172 0 axruntime:135]   [PA:0x2800c000, PA:0x2800d000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.124502 0 axruntime:135]   [PA:0x2800d000, PA:0x2800e000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.134831 0 axruntime:135]   [PA:0x2800e000, PA:0x2800f000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.145160 0 axruntime:135]   [PA:0x2800f000, PA:0x28010000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.155489 0 axruntime:135]   [PA:0x30000000, PA:0x38000000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.165818 0 axruntime:135]   [PA:0x40000000, PA:0x50000000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.176148 0 axruntime:135]   [PA:0x58000000, PA:0x80000000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.186477 0 axruntime:135]   [PA:0x28014000, PA:0x28016000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.196806 0 axruntime:135]   [PA:0x28016000, PA:0x28018000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.207135 0 axruntime:135]   [PA:0x28018000, PA:0x2801a000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.217464 0 axruntime:135]   [PA:0x2801a000, PA:0x2801c000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.227794 0 axruntime:135]   [PA:0x2801c000, PA:0x2801e000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.238123 0 axruntime:135]   [PA:0x28024000, PA:0x28025000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.248452 0 axruntime:135]   [PA:0x28026000, PA:0x28027000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.258781 0 axruntime:135]   [PA:0x28028000, PA:0x28029000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.269111 0 axruntime:135]   [PA:0x2802a000, PA:0x2802b000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.279440 0 axruntime:135]   [PA:0x28030000, PA:0x28031000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.289769 0 axruntime:135]   [PA:0x28032000, PA:0x28033000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.300098 0 axruntime:135]   [PA:0x28034000, PA:0x28035000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.310427 0 axruntime:135]   [PA:0x28035000, PA:0x28036000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.320756 0 axruntime:135]   [PA:0x28036000, PA:0x28037000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.331086 0 axruntime:135]   [PA:0x28037000, PA:0x28038000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.341415 0 axruntime:135]   [PA:0x28038000, PA:0x28039000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.351744 0 axruntime:135]   [PA:0x28039000, PA:0x2803a000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.362073 0 axruntime:135]   [PA:0x2803a000, PA:0x2803b000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.372403 0 axruntime:135]   [PA:0x28040000, PA:0x28042000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.382732 0 axruntime:135]   [PA:0x28042000, PA:0x28044000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.393061 0 axruntime:135]   [PA:0x2804a000, PA:0x2804b000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.403390 0 axruntime:135]   [PA:0x2804b000, PA:0x2804c000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.413719 0 axruntime:135]   [PA:0x28056000, PA:0x28057000) mmio (READ | WRITE | DEVICE | RESERVED)
+[  5.424049 0 axruntime:208] Initialize global memory allocator...
+[  5.431340 0 axruntime:209]   use TLSF allocator.
+[  5.437592 0 axmm:60] Initialize virtual memory management...
+[  5.471095 0 axruntime:150] Initialize platform devices...
+[  5.474911 0 axhal::platform::aarch64_phytium_pi::pcie:15] Init PCIE @0xffff000040000000
+[  5.484203 0 axhal::platform::aarch64_phytium_pi::pcie:20] header is: PciPciBridge 00-00:01.0 0x1DB7:0xDC01 PciPciBridge
+
+[  5.496558 0 axhal::platform::aarch64_phytium_pi::pcie:20] header is: Endpoint     00-01:00.0 0x8086:0x1533 EthernetController
+BAR0: Memory32 { address: 0x0000000058000000, size: 0x100000, prefetchable: false }
+BAR3: Memory32 { address: 0x0000000058100000, size: 0x4000, prefetchable: false }
+  PowerManagement(00-01:00.0, offset: 40)
+  Msi(MsiCapability { address: 00-01:00.0, offset: 50, per_vector_masking: true, is_64bit: true, multiple_message_capable: Int1 })
+  MsiX(MsixCapability { address: 00-01:00.0, offset: 70, table_size: 5, table: 3, pba: 8195 })
+  PciExpress(00-01:00.0, offset: a0)
+
+[  5.550617 0 axhal::platform::aarch64_phytium_pi::fxmac:86] === FXMAC Simple Test Start ===
+[  5.560146 0 axhal::platform::aarch64_phytium_pi::fxmac:185] === FXMAC Driver Initialization Start ===
+[  5.570649 0 axhal::platform::aarch64_phytium_pi::fxmac:190] Retrieved MAC address from hardware: 24:dc:0f:02:69:64
+[  5.582285 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac:400] FXmacReset, Got Moudle IDENTIFICATION: 12
+[  5.593390 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac:674] Design ConfigReg1: 0x8508510 Has FXMAC_CAPS_ISR_CLEAR_ON_WRITE feature
+[  5.607018 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac:555] bus width is 128
+[  5.615974 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac:721] FXmacSetOptions, is_started=0, options=13552, queue_num=0, max_queue_num=16
+[  5.630023 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac:583] FXMAC_MULTICAST_OPTION is ok
+[  5.640001 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac:721] FXmacSetOptions, is_started=0, options=2048, queue_num=0, max_queue_num=16
+[  5.653977 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_phy:159] FXmacPhyInit, speed=100, duplex_mode=1, autonegotiation_en=0, reset_flag=1
+[  5.668320 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_phy:211] Phy status reg is 0x7949
+[  5.678323 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_phy:217] Phy id1 reg is 0x0, Phy id2 reg is 0x11a
+[  5.689651 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_phy:223] Phy addr is 0x0
+[  5.698852 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_phy:171] Setting phy addr is 0
+[  5.708638 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_phy:266] Phy reset end.
+[  5.717688 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_phy:182] Set the communication speed manually.
+[  5.728798 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_phy:377] Manual setting, phy_addr is 0x0,speed 100, duplex_mode is 1.
+[  5.741969 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_phy:401] PHY_CONTROL_REG_OFFSET is 0x1140.
+[  7.252689 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_phy:439] Manual selection completed.
+[  7.260082 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_phy:448] Specific reg is 0x6840
+[  7.269869 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_phy:452] Duplex is full.
+[  7.279069 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_phy:463] Speed is 100M.
+[  7.288184 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac:1395] FXMAC_PHY_INTERFACE_MODE_SGMII init
+[  7.298860 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac:1438] sgmii FXMAC_SPEED_100
+[  7.308322 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac:1593] FXMAC_GEM_HSMAC is 0x0
+[  7.317869 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac:1602] FXmacInitInterface, PHY MODE:FXMAC_PHY_INTERFACE_MODE_SGMII
+[  7.330631 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:383] FXmacInitDma, rxringptr: 0xffff000090163c40
+[  7.342260 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:384] FXmacInitDma, txringptr: 0xffff000090163bc8
+[  7.353891 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:385] FXmacInitDma, rx_bdspace: 0xffff000090719000
+[  7.365609 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:386] FXmacInitDma, tx_bdspace: 0xffff00009071b000
+[  7.377328 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:485] FXmacBdRingCreate BDs count=128, separation=16, 0xffff000090719000~0xffff0000907197f0
+[  7.392606 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:207] RX WRAP of BD @ 0xffff0000907197f0 set 0x0 | FXMAC_RXBUF_WRAP_MASK
+[  7.406232 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:485] FXmacBdRingCreate BDs count=128, separation=16, 0xffff00009071b000~0xffff00009071b7f0
+[  7.421510 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:222] TX WRAP of BD @ 0xffff00009071b7f4 set 0x80000000 | TXBUF_WRAP
+[  7.434789 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:287] Allocate RX descriptors, 1 RxBD at a time.
+[  7.446333 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.455535 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.464735 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.473935 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.483136 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.492337 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.501538 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.510739 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.519940 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.529140 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.538341 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.547542 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.556743 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.565944 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.575144 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.584345 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.593546 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.602747 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.611947 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.621148 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.630349 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.639550 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.648751 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.657951 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.667152 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.676353 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.685554 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.694755 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.703956 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.713156 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.722357 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.731558 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.740759 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.749959 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.759160 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.768361 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.777562 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.786763 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.795963 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.805164 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.814365 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.823566 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.832767 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.841967 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.851168 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.860369 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.869570 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.878771 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.887971 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.897172 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.906373 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.915574 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.924775 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.933975 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.943176 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.952377 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.961578 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.970779 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.979980 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.989180 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  7.998381 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.007582 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.016783 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.025983 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.035184 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.044385 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.053586 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.062787 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.071988 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.081188 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.090389 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.099590 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.108791 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.117991 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.127192 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.136393 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.145594 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.154795 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.163995 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.173196 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.182397 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.191598 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.200799 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.209999 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.219200 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.228401 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.237602 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.246803 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.256003 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.265204 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.274405 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.283606 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.292807 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.302007 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.311208 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.320409 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.329610 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.338811 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.348011 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.357212 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.366413 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.375614 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.384815 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.394015 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.403216 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.412417 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.421618 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.430819 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.440020 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.449220 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.458421 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.467622 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.476823 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.486023 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.495224 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.504425 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.513626 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.522827 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.532027 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.541228 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.550429 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.559630 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.568831 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.578031 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.587232 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.596433 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.605634 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.614835 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:291] NO CONFIG_JUMBO
+[  8.624049 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_intr:427] register callback function for irq: 87
+[  8.635319 0 axhal::platform::aarch64_phytium_pi::fxmac:79] unimplemented dma_request_irq for fxmax
+[  8.645563 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac:321] Enable receiver, FXMAC_NWCTRL_OFFSET = 0x18
+[  8.656846 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac:329] FXMAC_NWCTRL_OFFSET = 0x1c
+[  8.666654 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac:334] Enable TX and RX by Mask=0xe76
+[  8.676812 0 axhal::platform::aarch64_phytium_pi::fxmac:200] === FXMAC Driver Initialization Complete ===
+[  8.687573 0 axhal::platform::aarch64_phytium_pi::fxmac:201] Driver status - Ready: 0x11111111, Started: 0x22222222, Link: 1
+[  8.699985 0 axhal::platform::aarch64_phytium_pi::fxmac:91] ✓ FXMAC initialization: SUCCESS
+[  8.709707 0 axhal::platform::aarch64_phytium_pi::fxmac:96] ✓ Link status: UP
+[  8.718213 0 axhal::platform::aarch64_phytium_pi::fxmac:99] Starting packet transmission test...
+[  8.728196 0 axhal::platform::aarch64_phytium_pi::fxmac:118] Test packet constructed with MAC: 24:dc:0f:02:69:64
+[  8.739567 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:1275] TX transmit packets
+[  8.749202 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:801] >>>>>>>>> TX PKT 42 @0xffff00009079d000 - 0
+[  8.760877 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:1275] TX transmit packets
+[  8.770467 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:801] >>>>>>>>> TX PKT 42 @0xffff00009079e000 - 1
+[  8.782142 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:1275] TX transmit packets
+[  8.791733 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:801] >>>>>>>>> TX PKT 42 @0xffff00009079f000 - 2
+[  8.803408 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:1275] TX transmit packets
+[  8.812999 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:801] >>>>>>>>> TX PKT 42 @0xffff0000907a0000 - 3
+[  8.824674 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:1275] TX transmit packets
+[  8.834265 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:801] >>>>>>>>> TX PKT 42 @0xffff0000907a1000 - 4
+[  8.845940 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:1275] TX transmit packets
+[  8.855531 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:801] >>>>>>>>> TX PKT 42 @0xffff0000907a2000 - 5
+[  8.867206 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:1275] TX transmit packets
+[  8.876797 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:801] >>>>>>>>> TX PKT 42 @0xffff0000907a3000 - 6
+[  8.888472 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:1275] TX transmit packets
+[  8.898063 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:801] >>>>>>>>> TX PKT 42 @0xffff0000907a4000 - 7
+[  8.909738 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:1275] TX transmit packets
+[  8.919329 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:801] >>>>>>>>> TX PKT 42 @0xffff0000907a5000 - 8
+[  8.931004 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:1275] TX transmit packets
+[  8.940595 0 axhal::platform::aarch64_phytium_pi::fxmac::fxmac_dma:801] >>>>>>>>> TX PKT 42 @0xffff0000907a6000 - 9
+[  8.952270 0 axhal::platform::aarch64_phytium_pi::fxmac:139] Transmission test: 10/10 packets sent successfully
+[  8.963510 0 axhal::platform::aarch64_phytium_pi::fxmac:142] Starting reception test...
+[  9.059502 0 axhal::platform::aarch64_phytium_pi::fxmac:160] Reception test: 0 total packets received
+[  9.067046 0 axhal::platform::aarch64_phytium_pi::fxmac:163] ✓ FXMAC driver functionality verified
+[  9.077375 0 axhal::platform::aarch64_phytium_pi::fxmac:172] ✓ FXMAC test completed successfully
+[  9.087531 0 axhal::platform::aarch64_phytium_pi::fxmac:179] === FXMAC Simple Test End ===
+[  9.096992 0 axhal::platform::aarch64_phytium_pi::igb:69] Starting basic IGB driver test...
+[  9.106608 0 axhal::platform::aarch64_phytium_pi::igb:93] Found IGB device: VID=0x8086, DID=0x1533
+[  9.116696 0 axhal::platform::aarch64_phytium_pi::igb:140] Configuring PCIe device...
+[  9.125723 0 axhal::platform::aarch64_phytium_pi::igb:143] Enabling PCIe device memory access and bus mastering...
+[  9.137269 0 axhal::platform::aarch64_phytium_pi::igb:151] Configuring interrupt mode for basic testing...
+[  9.148118 0 axhal::platform::aarch64_phytium_pi::igb:155] Disabling MSI capability
+[  9.156973 0 axhal::platform::aarch64_phytium_pi::igb:159] Disabling MSI-X capability
+[  9.166000 0 axhal::platform::aarch64_phytium_pi::igb:165] Note: Using polling mode for basic testing - interrupts disabled
+[  9.178324 0 axhal::platform::aarch64_phytium_pi::igb:167] PCIe device configuration completed successfully!
+[  9.189348 0 axhal::platform::aarch64_phytium_pi::igb:111] IGB device BAR0 address: 0x58000000
+[  9.199156 0 axhal::platform::aarch64_phytium_pi::igb:184] IGB driver instance created
+[  9.208274 0 axhal::platform::aarch64_phytium_pi::igb:188] IGB MAC Address: 1c:fd:08:71:ba:f9
+[  9.217993 0 axhal::platform::aarch64_phytium_pi::igb:192] Initial device status: MacStatus { full_duplex: true, link_up: true, speed: Mb1000, phy_reset_asserted: true }
+[  9.234553 0 axhal::platform::aarch64_phytium_pi::igb::phy:284] Waiting for auto-negotiation to complete (up to 10 seconds)...
+[ 10.047038 0 axhal::platform::aarch64_phytium_pi::igb::phy:291] Auto-negotiation attempt 5/50
+[ 11.054067 0 axhal::platform::aarch64_phytium_pi::igb::phy:291] Auto-negotiation attempt 10/50
+[ 12.061183 0 axhal::platform::aarch64_phytium_pi::igb::phy:291] Auto-negotiation attempt 15/50
+[ 13.068297 0 axhal::platform::aarch64_phytium_pi::igb::phy:291] Auto-negotiation attempt 20/50
+[ 13.075269 0 axhal::platform::aarch64_phytium_pi::igb::phy:300] Auto-negotiation completed successfully after 20 attempts
+[ 13.087389 0 axhal::platform::aarch64_phytium_pi::igb:196] IGB device opened successfully
+[ 13.096760 0 axhal::platform::aarch64_phytium_pi::igb:199] Waiting for link up...
+[ 13.105442 0 axhal::platform::aarch64_phytium_pi::igb:205] Link status attempt 1: MacStatus { full_duplex: true, link_up: true, speed: Mb1000, phy_reset_asserted: true }
+[ 13.121758 0 axhal::platform::aarch64_phytium_pi::igb:208] Link is up!
+[ 13.129485 0 axhal::platform::aarch64_phytium_pi::igb:222] Final device status: MacStatus { full_duplex: true, link_up: true, speed: Mb1000, phy_reset_asserted: true }
+[ 13.145651 0 axhal::platform::aarch64_phytium_pi::igb:226] TX/RX rings created successfully
+[ 13.155176 0 axhal::platform::aarch64_phytium_pi::igb:238] Starting loopback test...
+[ 13.164118 0 axhal::platform::aarch64_phytium_pi::igb:242] Loopback mode enabled
+[ 13.172712 0 axhal::platform::aarch64_phytium_pi::igb:248] Loopback status: MacStatus { full_duplex: true, link_up: true, speed: Mb1000, phy_reset_asserted: true }
+[ 13.188509 0 axhal::platform::aarch64_phytium_pi::igb:252] Loopback mode disabled
+[ 13.197187 0 axhal::platform::aarch64_phytium_pi::igb:254] Loopback test completed
+[ 13.205954 0 axhal::platform::aarch64_phytium_pi::igb:231] IGB driver test completed successfully
+[ 13.216027 0 axhal::platform::aarch64_phytium_pi::igb:116] IGB driver test passed!
+[ 13.224790 0 axruntime:186] Primary CPU 512 init OK.
+Hello, world!
+[ 13.232254 0 axhal::platform::aarch64_phytium_pi::misc:42] Shutting down...

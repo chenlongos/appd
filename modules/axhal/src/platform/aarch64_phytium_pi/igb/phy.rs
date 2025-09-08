@@ -281,14 +281,14 @@ impl Phy {
         let interval = core::time::Duration::from_millis(200);
         let try_count = 50; // Wait for up to 10 seconds (50 × 200ms)
 
-        log::debug!("Waiting for auto-negotiation to complete (up to 10 seconds)...");
+        log::info!("Waiting for auto-negotiation to complete (up to 10 seconds)...");
         
         let mut attempts = 0;
         let result = wait_for(
             || {
                 attempts += 1;
                 if attempts % 5 == 0 { // Log every 1 second (5 × 200ms)
-                    log::debug!("Auto-negotiation attempt {}/{}", attempts, try_count);
+                    log::info!("Auto-negotiation attempt {}/{}", attempts, try_count);
                 }
                 self.is_auto_negotiation_complete().unwrap_or(false)
             },
@@ -297,7 +297,7 @@ impl Phy {
         );
 
         match &result {
-            Ok(()) => log::debug!("Auto-negotiation completed successfully after {} attempts", attempts),
+            Ok(()) => log::info!("Auto-negotiation completed successfully after {} attempts", attempts),
             Err(DError::Timeout) => log::warn!("Auto-negotiation timeout after {} seconds", try_count * 200 / 1000),
             Err(e) => log::error!("Auto-negotiation failed: {:?}", e),
         }
