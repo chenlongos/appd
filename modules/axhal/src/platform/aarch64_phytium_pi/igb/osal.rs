@@ -1,13 +1,7 @@
 use core::time::Duration;
-
-use trait_ffi::def_extern_trait;
+use crate::time::busy_wait;
 
 use super::DError;
-
-#[def_extern_trait]
-pub trait Kernel {
-    fn sleep(duration: Duration);
-}
 
 pub(crate) fn wait_for<F: FnMut() -> bool>(
     mut f: F,
@@ -19,7 +13,7 @@ pub(crate) fn wait_for<F: FnMut() -> bool>(
             return Ok(());
         }
 
-        kernel::sleep(interval);
+        busy_wait(interval);
     }
     Err(DError::Timeout)
 }

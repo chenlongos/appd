@@ -5,7 +5,7 @@ use core::ptr::NonNull;
 pub fn init_pcie() {
     let pci_32_range = axconfig::PCI_RANGES[0];
     let pci_64_range = axconfig::PCI_RANGES[1];
-    let mut bar_alloc = SimpleBarAllocator::new(pci_32_range.0 as u32, (pci_32_range.0 - pci_32_range.1)as u32, pci_64_range.0 as u64, (pci_64_range.0 - pci_64_range.1)as u64);
+    let mut bar_alloc = SimpleBarAllocator::new(pci_32_range.0 as u32, (pci_32_range.1 - pci_32_range.0)as u32, pci_64_range.0 as u64, (pci_64_range.1 - pci_64_range.0)as u64);
 
     let base_vaddr = phys_to_virt(axconfig::PCI_ECAM_BASE.into());
 

@@ -31,6 +31,7 @@ mmio-regions = [
    
   ["0x3000_0000","0x800_0000"],     #other devices
   ["0x4000_0000", "0x1000_0000"], # pcie ecam
+  ["0x5800_0000", "0x2800_0000"], # pcie device memory range
 
   ["0x2801_4000", "0x2000"],      # MIO0 - I2C
   ["0x2801_6000", "0x2000"],      # MIO1 - I2C
