@@ -1,0 +1,61 @@
+{
+    "editor.formatOnSave": true,
+    "editor.rulers": [
+        100
+    ],
+    // Rust-analyzer 配置 for Phytium Pi
+    "rust-analyzer.cargo.target": "aarch64-unknown-none-softfloat",
+    "rust-analyzer.cargo.noDefaultFeatures": true,
+    "rust-analyzer.cargo.allFeatures": false,
+    "rust-analyzer.cargo.features": [
+        "axstd",
+        "irq",
+        "ixgbe"
+    ],
+    "rust-analyzer.check.allTargets": false,
+    // 为 Phytium Pi 平台设置环境变量
+    "rust-analyzer.server.extraEnv": {
+        "AX_ARCH": "aarch64",
+        "AX_PLATFORM": "aarch64-phytium-pi",
+        "AX_TARGET": "aarch64-unknown-none-softfloat",
+        "AX_MODE": "release",
+        "AX_LOG": "warn",
+        "AX_SMP": "1"
+    },
+    // 构建参数配置
+    "rust-analyzer.cargo.extraArgs": [
+        "-Z",
+        "unstable-options",
+        "-Z",
+        "build-std=core,alloc"
+    ],
+    "rust-analyzer.rustc.source": "discover",
+    // 启用 build scripts 以正确处理平台配置
+    "rust-analyzer.cargo.buildScripts.enable": true,
+    "rust-analyzer.cargo.buildScripts.useRustcWrapper": true,
+    // 禁用一些在裸机环境下不适用的功能
+    "rust-analyzer.lens.debug": false,
+    "rust-analyzer.lens.run": false,
+    "rust-analyzer.completion.autoimport.enable": true,
+    // 针对 workspace 的配置
+    "rust-analyzer.linkedProjects": [
+        "./Cargo.toml"
+    ],
+    // 代码补全和诊断配置
+    "rust-analyzer.diagnostics.disabled": [
+        "unresolved-proc-macro",
+        "inactive-code"
+    ],
+    "rust-analyzer.procMacro.enable": true,
+    "rust-analyzer.procMacro.ignored": {},
+    // 针对 no_std 项目的配置 - 使用源代码中的 sysroot
+    "rust-analyzer.cargo.sysroot": "discover",
+    "rust-analyzer.rustfmt.extraArgs": [
+        "--edition=2021"
+    ],
+    // 启用实验性功能
+    "rust-analyzer.experimental.procAttrMacros": true,
+    "rust-analyzer.cargo.buildScripts.invocationStrategy": "per_workspace",
+    // 内存和性能优化
+    "rust-analyzer.lru.capacity": 512
+}
